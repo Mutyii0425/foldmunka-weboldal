@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Phone, Mail, MapPin, CheckCircle, Truck, Shovel, Hammer, ArrowRight, Menu, ShieldCheck, Layers, Axe, X, ChevronRight, Star } from 'lucide-react';
+import { Phone, Mail, MapPin, CheckCircle, Truck, Shovel, Hammer, ArrowRight, Menu, ShieldCheck, Layers, Axe, X, ChevronRight, Star, Filter } from 'lucide-react';
 
-// --- OPTIMALIZÁLT ANIMÁCIÓS KOMPONENS ---
+// --- ANIMÁCIÓS KOMPONENS ---
 const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -38,24 +38,71 @@ const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, de
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [filter, setFilter] = useState('Mind'); // Galéria szűrő állapota
 
   // --- KÉPEK ---
   const images = {
-    hero: "/images/gepek.jpg",
-    transport: "/images/kettonagy.jpg",
-    fleet: "/images/teherautok.jpg",
+    logo: "/images/logo.png",
+    hero: "/images/gepek1.jpg", // A panoráma kép a legjobb kezdésnek
   };
 
-  const galleryItems = [
-    { src: "/images/alapasas1.jpg", title: "Sávalap ásás", cat: "Földmunka" },
-    { src: "/images/tartaly.jpg", title: "Tartály telepítés", cat: "Speciális" },
-    { src: "/images/arok.jpg", title: "Közműárok & Csövezés", cat: "Közmű" },
-    { src: "/images/ut.jpg", title: "Murvás út építés", cat: "Útépítés" },
-    { src: "/images/epuletutana.jpg", title: "Tereptisztítás bontás után", cat: "Bontás" },
-    { src: "/images/keszarok.jpg", title: "Térkő alépítmény", cat: "Tereprendezés" },
-    { src: "/images/lejaro.jpg", title: "Meredek lejáró", cat: "Tereprendezés" },
-    { src: "/images/nagyteher.jpg", title: "Építőanyag szállítás", cat: "Fuvarozás" },
+  // --- A TELJES KÉP PORTFÓLIÓ KATEGORIZÁLVA ---
+  const portfolioItems = [
+    // FÖLDMUNKA & ALAPOZÁS
+    { src: "/images/alapasas1.jpg", cat: "Földmunka", title: "Sávalap ásás" }, //
+    { src: "/images/alapasas2.jpg", cat: "Földmunka", title: "Vasalt alap előkészítés" }, //
+    { src: "/images/szepalap.jpg", cat: "Földmunka", title: "Zsaluköves alapozás" }, //
+    { src: "/images/szebbalap.jpg", cat: "Földmunka", title: "Precíziós alapásás" }, //
+    { src: "/images/keszalap.jpg", cat: "Földmunka", title: "Kész vasbeton alap" }, //
+    { src: "/images/alapasas.jpg", cat: "Földmunka", title: "Gép és teherautó összhang" }, //
+    { src: "/images/alapcsinalas.jpg", cat: "Földmunka", title: "Alap kitűzés és ásás" }, //
+    { src: "/images/pincekiemeles.jpg", cat: "Földmunka", title: "Pince tömbkiemelés" }, //
+
+    // FUVAROZÁS & GÉPPARK
+    { src: "/images/kamion1.jpg", cat: "Fuvarozás", title: "Éjszakai gabona szállítás" }, //
+    { src: "/images/kamion.jpg", cat: "Fuvarozás", title: "Répa szállítás naplementében" }, //
+    { src: "/images/kamion2.jpg", cat: "Fuvarozás", title: "Mezőgazdasági fuvar" }, //
+    { src: "/images/kamionrakas.jpg", cat: "Fuvarozás", title: "Kamion megrakása" }, //
+    { src: "/images/gabonaaru.jpg", cat: "Fuvarozás", title: "Kombájn kiszolgálás" }, //
+    { src: "/images/gabonaaru1.jpg", cat: "Fuvarozás", title: "Kukorica aratás" }, //
+    { src: "/images/kombajn.jpg", cat: "Fuvarozás", title: "Aratás logisztika" }, //
+    { src: "/images/banya.jpg", cat: "Fuvarozás", title: "Bányai rakodás" }, //
+    { src: "/images/nagyteher.jpg", cat: "Fuvarozás", title: "Építőanyag szállítás" }, //
+    { src: "/images/kettonagy.jpg", cat: "Fuvarozás", title: "Gabona tárolás" }, //
+    { src: "/images/teherautok.jpg", cat: "Fuvarozás", title: "Gépparkunk" }, //
+    { src: "/images/teherautorakas.jpg", cat: "Fuvarozás", title: "Teherautó töltése" }, //
+    { src: "/images/holdjaro.jpg", cat: "Fuvarozás", title: "Bála rakodás" }, //
+
+    // ÚTÉPÍTÉS & TEREPRENDEZÉS
+    { src: "/images/hosszuut1.jpg", cat: "Útépítés", title: "Murvás út építés" }, //
+    { src: "/images/hosszuut.jpg", cat: "Útépítés", title: "Hosszú bekötőút" }, //
+    { src: "/images/ut.jpg", cat: "Útépítés", title: "Erdei út kialakítása" }, //
+    { src: "/images/lejaro.jpg", cat: "Útépítés", title: "Meredek lejáró" }, //
+    { src: "/images/terkoagy.jpg", cat: "Útépítés", title: "Térkő ágyazat" }, //
+    { src: "/images/terulettisztitas.jpg", cat: "Tereprendezés", title: "Területtisztítás" }, //
+    { src: "/images/terulettisztitas1.jpg", cat: "Tereprendezés", title: "Telekrendezés" }, //
+    { src: "/images/nagyterulettisztitas.jpg", cat: "Tereprendezés", title: "Nagy terület rendezése" }, //
+    { src: "/images/teruletrendezes.jpg", cat: "Tereprendezés", title: "Kőrakás és rendezés" }, //
+    { src: "/images/partoldal.jpg", cat: "Tereprendezés", title: "Rézsű kialakítás" }, //
+    { src: "/images/partoldal1.jpg", cat: "Tereprendezés", title: "Partoldal szedése" }, //
+    { src: "/images/tuskozas.jpg", cat: "Tereprendezés", title: "Gépi tuskózás" }, //
+    { src: "/images/epuletbontas.jpg", cat: "Tereprendezés", title: "Épületbontás" }, //
+    { src: "/images/epuletutana.jpg", cat: "Tereprendezés", title: "Bontás utáni állapot" }, //
+
+    // KÖZMŰ & SPECIÁLIS
+    { src: "/images/arok1.jpg", cat: "Közmű", title: "Közműárok ásás" }, //
+    { src: "/images/vizelvezeto.jpg", cat: "Közmű", title: "Vízelvezető árok" }, //
+    { src: "/images/nemtudom.jpg", cat: "Közmű", title: "Gerincvezeték fektetés" }, //
+    { src: "/images/tartaly.jpg", cat: "Közmű", title: "Tartály beemelés" }, //
+    { src: "/images/tartalyok.jpg", cat: "Közmű", title: "Szennyvíztartály telepítés" }, //
+    { src: "/images/szepgep.jpg", cat: "Közmű", title: "Munkavégzés vízparton" }, //
   ];
+
+  const categories = ['Mind', 'Földmunka', 'Fuvarozás', 'Útépítés', 'Tereprendezés', 'Közmű'];
+  
+  const filteredItems = filter === 'Mind' 
+    ? portfolioItems 
+    : portfolioItems.filter(item => item.cat === filter);
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900">
@@ -66,20 +113,21 @@ export default function Home() {
           <button className="absolute top-4 right-4 text-white/70 hover:text-yellow-500 transition p-2">
             <X size={32} />
           </button>
-          <img src={activeImage} alt="Nagyított kép" className="max-w-full max-h-[85vh] rounded-sm shadow-2xl border border-slate-700" />
+          <img src={activeImage} alt="Nagyított kép" className="max-w-full max-h-[90vh] rounded-sm shadow-2xl border border-slate-700" />
         </div>
       )}
 
       {/* --- NAVBAR --- */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isMenuOpen ? 'bg-slate-900' : 'bg-slate-900/95 lg:backdrop-blur-md'} border-b border-yellow-500/20 shadow-lg`}>
-        <div className="container mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
+        <div className="container mx-auto px-4 md:px-8 h-20 md:h-24 flex items-center justify-between">
           <div className="flex items-center gap-2 group cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            <div className="w-0 h-0 border-l-[15px] md:border-l-[20px] border-l-transparent border-b-[25px] md:border-b-[35px] border-b-yellow-500 border-r-[15px] md:border-r-[20px] border-r-transparent relative transform group-hover:scale-110 transition duration-300">
-              <span className="absolute -left-[5px] top-[10px] md:-left-[12px] md:top-[14px] text-[10px] md:text-xs font-black text-slate-900">CST</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg md:text-2xl font-black tracking-tighter text-white uppercase italic leading-none group-hover:text-yellow-500 transition">CSALI<span className="text-yellow-500 group-hover:text-white transition">TAMÁS</span></span>
-              <span className="text-[9px] md:text-xs text-slate-400 font-bold tracking-widest uppercase">Földmunka & Fuvarozás</span>
+            {/* LOGÓ HELYE */}
+            <div className="bg-white p-2 rounded-lg shadow-lg hover:bg-slate-50 transition-colors duration-300 border-2 border-yellow-500/50 flex items-center">
+              <img 
+                src={images.logo} 
+                alt="Csali Tamás Földmunka Logo" 
+                className="h-10 md:h-14 w-auto object-contain max-w-[280px]"
+              />
             </div>
           </div>
           
@@ -124,7 +172,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <img 
             src={images.hero} 
-            alt="Csali Tamás Géppark" 
+            alt="Csali Tamás Géppark Balaton" 
             className="w-full h-full object-cover opacity-60 animate-slow-zoom will-change-transform" 
             loading="eager" 
           />
@@ -140,22 +188,19 @@ export default function Home() {
                 <ShieldCheck size={14} /> Balatonederics és vonzáskörzete
               </div>
               <h1 className="flex flex-col gap-2 text-4xl md:text-7xl lg:text-8xl font-black uppercase italic tracking-tighter">
-  {/* Felső sor: Fehér, erős árnyékkal */}
-  <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
-    Gépi Földmunka
-  </span>
-  
-  {/* Alsó sor: Sárga szöveg, sötét körvonallal (text-stroke) */}
-  <span className="relative text-yellow-500 drop-shadow-xl">
-    <span className="absolute inset-0 text-slate-900 blur-sm transform translate-y-1 opacity-50 select-none" aria-hidden="true">
-      & Profi Fuvarozás
-    </span>
-    <span className="relative">
-      <span className="text-white mx-2">&</span> 
-      Profi Fuvarozás
-    </span>
-  </span>
-</h1>
+                <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+                  Gépi Földmunka
+                </span>
+                <span className="relative text-yellow-500 drop-shadow-xl">
+                  <span className="absolute inset-0 text-slate-900 blur-sm transform translate-y-1 opacity-50 select-none" aria-hidden="true">
+                    & Profi Fuvarozás
+                  </span>
+                  <span className="relative">
+                    <span className="text-white mx-2">&</span> 
+                    Profi Fuvarozás
+                  </span>
+                </span>
+              </h1>
               <p className="text-base md:text-xl lg:text-2xl text-slate-200 mb-8 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed drop-shadow-md">
                 A pincetömb kiemeléstől a 40 tonnás szállításig. <br className="hidden md:block"/>
                 Megbízható szakértelem, profi <span className="text-yellow-500 font-bold">CAT</span> gépparkkal.
@@ -164,8 +209,8 @@ export default function Home() {
                 <a href="#kapcsolat" className="group px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black text-base md:text-lg uppercase tracking-wide rounded transition-all hover:scale-105 shadow-[0_0_20px_rgba(234,179,8,0.4)] flex items-center justify-center gap-2">
                   Ingyenes felmérés <ArrowRight className="group-hover:translate-x-1 transition" />
                 </a>
-                <a href="#szolgaltatasok" className="px-8 py-4 bg-slate-900/50 backdrop-blur-sm border border-white/20 hover:border-yellow-500 hover:bg-slate-900/80 text-white hover:text-yellow-500 font-bold text-base md:text-lg uppercase tracking-wide rounded transition text-center">
-                  Szolgáltatásaink
+                <a href="#galeria" className="px-8 py-4 bg-slate-900/50 backdrop-blur-sm border border-white/20 hover:border-yellow-500 hover:bg-slate-900/80 text-white hover:text-yellow-500 font-bold text-base md:text-lg uppercase tracking-wide rounded transition text-center">
+                  Munkáink
                 </a>
               </div>
             </div>
@@ -178,26 +223,6 @@ export default function Home() {
           </div>
         </div>
       </header>
-
-      {/* --- ELŐNYÖK SÁV --- */}
-      <div className="bg-gradient-to-r from-yellow-500 to-orange-500 py-6 md:py-8 shadow-2xl relative z-20 -mt-4 mx-2 md:mx-0 rounded-lg md:rounded-none">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-900">
-             {[
-               { icon: <Truck size={28} />, text: "3,5 tonnától 40 tonnáig" },
-               { icon: <CheckCircle size={28} />, text: "Teljeskörű gépi földmunka" },
-               { icon: <ShieldCheck size={28} />, text: "Korrekt árak, precíz munka" }
-             ].map((item, idx) => (
-               <div key={idx} className="flex items-center gap-4 justify-center md:justify-start group">
-                 <div className="p-3 bg-slate-900 rounded-full text-white transform group-hover:rotate-12 transition duration-300 shadow-lg border-2 border-slate-800">
-                   {item.icon}
-                 </div>
-                 <span className="font-black uppercase tracking-tight text-sm md:text-lg">{item.text}</span>
-               </div>
-             ))}
-          </div>
-        </div>
-      </div>
 
       {/* --- SZOLGÁLTATÁSOK --- */}
       <section id="szolgaltatasok" className="py-20 bg-slate-50 relative overflow-hidden">
@@ -224,72 +249,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- FUVAROZÁS --- */}
-      <section id="fuvarozas" className="py-20 bg-slate-900 text-white relative overflow-hidden group">
-        <div className="absolute inset-0 opacity-40">
-           <img src={images.transport} alt="Gabona szállítás" className="w-full h-full object-cover grayscale mix-blend-overlay" loading="lazy" />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/95 to-slate-900/60"></div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <RevealOnScroll>
-              <div>
-                <div className="inline-block px-4 py-1.5 bg-yellow-500 text-slate-900 font-black text-xs uppercase mb-6 rounded shadow-[0_0_15px_rgba(234,179,8,0.5)]">
-                  Országos Fuvarozás
-                </div>
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase italic mb-8 leading-none">
-                  Ömlesztett áru <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">Szállítás</span>
-                </h2>
-                <p className="text-slate-300 text-base md:text-lg mb-8 leading-relaxed border-l-4 border-yellow-500 pl-6 bg-slate-800/50 py-4 rounded-r-lg">
-                  Legyen szó egy kisebb kerti munkáról vagy nagy építkezésről, megfelelő méretű teherautóval állunk rendelkezésre. 
-                  <br/><br/>
-                  <strong className="text-white text-xl flex items-center gap-2"><Truck className="text-yellow-500"/> 3,5 tonnától 40 tonnáig</strong>
-                </p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {['Termőföld', 'Homok', 'Sóder', 'Kavics, Zúzottkő', 'Építési törmelék', 'Mezőgazdasági termény'].map((item, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-slate-800/80 border border-slate-700/50 rounded hover:border-yellow-500 hover:text-yellow-500 transition duration-300 cursor-default shadow-sm">
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                      <span className="font-bold uppercase text-xs md:text-sm tracking-wide">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </RevealOnScroll>
-            
-            <RevealOnScroll delay={300}>
-              <div className="relative mt-8 lg:mt-0">
-                <div className="absolute top-4 -right-4 w-full h-full border-4 border-yellow-500/20 rounded-xl hidden md:block"></div>
-                <div className="bg-slate-800 aspect-[5/3] rounded-xl overflow-hidden relative z-10 shadow-2xl border border-slate-700">
-                  <img src={images.fleet} alt="Teherautók" className="w-full h-full object-cover transform hover:scale-105 transition duration-700" loading="lazy"/>
-                </div>
-              </div>
-            </RevealOnScroll>
-          </div>
-        </div>
-      </section>
-
-      {/* --- GALÉRIA --- */}
-      <section id="galeria" className="py-20 bg-slate-100 relative">
-        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div>
+      {/* --- ÚJ OKOS GALÉRIA --- */}
+      <section id="galeria" className="py-20 bg-slate-900 text-white relative">
+        <div className="absolute inset-0 bg-slate-900/95"></div>
         <div className="container mx-auto px-4 relative z-10">
           <RevealOnScroll>
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase italic">Referencia Munkáink</h2>
-              <p className="text-slate-600 mt-4 font-medium max-w-xl mx-auto">Valós képek, valós munka. Ízelítő az általunk elvégzett feladatokból.</p>
+              <h2 className="text-yellow-500 font-black uppercase tracking-widest text-xs md:text-sm mb-3">Referenciák</h2>
+              <h3 className="text-3xl md:text-5xl font-black uppercase italic mb-8">Válasszon Kategóriát</h3>
+              
+              {/* Kategória gombok */}
+              <div className="flex flex-wrap justify-center gap-3 mb-12">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setFilter(cat)}
+                    className={`px-6 py-2 rounded-full font-bold uppercase text-xs md:text-sm transition-all duration-300 transform hover:scale-105 ${
+                      filter === cat 
+                        ? 'bg-yellow-500 text-slate-900 shadow-lg shadow-yellow-500/50' 
+                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
           </RevealOnScroll>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {galleryItems.map((item, idx) => (
-              <RevealOnScroll key={idx} delay={idx * 50}>
+          {/* Galéria Rács */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 min-h-[500px]">
+            {filteredItems.map((item, idx) => (
+              <RevealOnScroll key={item.src + idx} delay={idx * 50}>
                 <div 
-                  className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer shadow-md hover:shadow-2xl transition-all border-2 border-white hover:border-yellow-500"
+                  className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer bg-slate-800 border-2 border-slate-700 hover:border-yellow-500 transition-all duration-300"
                   onClick={() => setActiveImage(item.src)}
                 >
-                  <img src={item.src} alt={item.title} className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
+                  <img 
+                    src={item.src} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700" 
+                    loading="lazy" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-4">
                     <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-wider mb-1 px-2 py-0.5 bg-black/50 w-fit rounded">{item.cat}</span>
                     <span className="text-white font-bold leading-tight text-lg">{item.title}</span>
                   </div>
@@ -302,6 +304,10 @@ export default function Home() {
               </RevealOnScroll>
             ))}
           </div>
+          
+          {filteredItems.length === 0 && (
+             <p className="text-center text-slate-500 mt-10">Ebben a kategóriában jelenleg nincsenek képek.</p>
+          )}
         </div>
       </section>
 
