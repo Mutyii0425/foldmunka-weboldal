@@ -574,14 +574,14 @@ function SectionHeader({ title, subtitle, dark = false }: { title: string, subti
 function ServiceCard({ icon, title, desc, delay }: { icon: React.ReactNode, title: string, desc: string, delay: number }) {
   return (
     <RevealOnScroll delay={delay} className="h-full">
-      <div className="group p-8 bg-white hover:bg-slate-900 transition-all duration-500 border border-slate-200 hover:border-yellow-500 shadow-lg hover:shadow-2xl rounded-2xl h-full flex flex-col relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-yellow-500/10 rounded-full transition-transform group-hover:scale-150 duration-500"></div>
+      <div className="group p-6 md:p-8 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-500 border border-slate-200/60 hover:border-yellow-500 shadow-xl hover:shadow-2xl hover:shadow-yellow-500/10 rounded-2xl h-full flex flex-col relative overflow-hidden transform hover:-translate-y-2">
+        <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-yellow-500/5 rounded-full transition-transform group-hover:scale-150 duration-500"></div>
         
-        <div className="mb-6 inline-flex p-4 bg-slate-100 text-yellow-600 rounded-xl group-hover:bg-yellow-500 group-hover:text-slate-900 transition-colors duration-300 w-fit shadow-md">
-          {React.cloneElement(icon as React.ReactElement, { className: "w-8 h-8" })}
+        <div className="mb-4 md:mb-6 inline-flex p-3 md:p-4 bg-slate-50 text-yellow-600 rounded-2xl group-hover:bg-yellow-500 group-hover:text-slate-900 transition-colors duration-300 w-fit shadow-inner group-hover:shadow-lg">
+          {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-6 h-6 md:w-8 md:h-8" })}
         </div>
-        <h3 className="text-xl font-black text-slate-900 group-hover:text-white mb-3 uppercase italic transition-colors">{title}</h3>
-        <p className="text-slate-600 group-hover:text-slate-400 leading-relaxed font-medium text-sm md:text-base transition-colors relative z-10">{desc}</p>
+        <h3 className="text-lg md:text-xl font-black text-slate-900 group-hover:text-slate-900 mb-2 md:mb-3 uppercase italic transition-colors">{title}</h3>
+        <p className="text-slate-600 group-hover:text-slate-600 leading-relaxed font-medium text-sm md:text-base transition-colors relative z-10">{desc}</p>
       </div>
     </RevealOnScroll>
   )
@@ -589,18 +589,18 @@ function ServiceCard({ icon, title, desc, delay }: { icon: React.ReactNode, titl
 
 function ContactItem({ icon, title, content, href, highlight }: { icon: React.ReactNode, title: string, content: string, href?: string, highlight?: boolean }) {
   return (
-    <div className="flex gap-5 items-center group">
-      <div className={`w-12 h-12 flex items-center justify-center rounded-xl shrink-0 transition-all duration-300 ${highlight ? 'bg-yellow-500 text-slate-900 shadow-lg shadow-yellow-500/50 group-hover:scale-110' : 'bg-slate-800 text-yellow-500 group-hover:bg-yellow-500 group-hover:text-slate-900'}`}>
-        {React.cloneElement(icon as React.ReactElement, { size: 22 })}
+    <div className="flex gap-4 md:gap-5 items-center group">
+      <div className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl shrink-0 transition-all duration-300 shadow-lg ${highlight ? 'bg-yellow-500 text-slate-900 shadow-yellow-500/50 group-hover:scale-110' : 'bg-slate-800 text-yellow-500 group-hover:bg-yellow-500 group-hover:text-slate-900'}`}>
+        {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-5 h-5 md:w-6 md:h-6" })}
       </div>
       <div>
-        <div className="font-bold text-[10px] md:text-xs text-yellow-500/80 uppercase tracking-widest mb-1">{title}</div>
+        <div className="font-bold text-[10px] md:text-xs text-yellow-500/80 uppercase tracking-widest mb-0.5 md:mb-1">{title}</div>
         {href ? (
-          <a href={href} className={`font-bold transition hover:text-yellow-500 block ${highlight ? 'text-xl md:text-2xl text-white' : 'text-slate-300 text-lg'}`}>
+          <a href={href} className={`font-bold transition hover:text-yellow-500 block ${highlight ? 'text-lg md:text-2xl text-white' : 'text-base md:text-lg text-slate-300'}`}>
             {content}
           </a>
         ) : (
-          <div className="font-medium text-slate-300 text-lg">{content}</div>
+          <div className="font-medium text-slate-300 text-base md:text-lg">{content}</div>
         )}
       </div>
     </div>
