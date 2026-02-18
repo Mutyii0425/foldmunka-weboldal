@@ -450,7 +450,7 @@ export default function Home() {
                     Kérdése van? Munkát rendelne? <br className="hidden md:block"/>Hívjon bizalommal hétvégén is!
                   </p>
                   
-                  <div className="space-y-6 md:space-y-8">
+                  <div className="space-y-5 md:space-y-7">
                     <ContactItem icon={<Phone />} title="Telefon" content="+36 30 645 7041" href="tel:+36306457041" highlight />
                     <ContactItem icon={<Mail />} title="Email" content="csalitamas462@gmail.com" href="mailto:csalitamas462@gmail.com" />
                     <ContactItem icon={<MapPin />} title="Helyszín" content="Balatonederics és környéke" />
