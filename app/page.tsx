@@ -147,7 +147,7 @@ export default function Home() {
       )}
 
       {/* --- NAVBAR --- */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-slate-900 shadow-xl py-2' : 'bg-transparent py-4'}`}>
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pt-[env(safe-area-inset-top)] ${scrolled || isMenuOpen ? 'bg-slate-900/95 backdrop-blur-md shadow-xl' : 'bg-transparent'}`}>
         <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
           
           {/* Logo / Brand */}
