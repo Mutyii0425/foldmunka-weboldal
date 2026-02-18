@@ -146,34 +146,34 @@ export default function Home() {
         </div>
       )}
 
-   {/* --- NAVBAR --- */}
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pt-[env(safe-area-inset-top)] ${scrolled || isMenuOpen ? 'bg-slate-900/95 shadow-xl' : 'bg-transparent'}`}>
-        <div className={`container mx-auto px-4 md:px-8 flex items-center justify-between transition-all duration-300 ${scrolled || isMenuOpen ? 'py-3' : 'py-5 md:py-8'}`}>
+      {/* --- NAVBAR --- */}
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pt-[env(safe-area-inset-top)] ${scrolled || isMenuOpen ? 'bg-slate-900/95 shadow-xl py-2' : 'bg-transparent py-4'}`}>
+        <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
           
           {/* Logo / Brand */}
           <a href="#" className="flex items-center gap-3 group z-50">
             {images.logo && images.logo !== "" ? (
                <div className="transform transition-transform group-hover:scale-105">
-                 <img 
-                   src={images.logo} 
-                   alt="Logo" 
-                   className="h-10 md:h-20 w-auto object-contain" 
-                 />
+                  <img 
+                    src={images.logo} 
+                    alt="Logo" 
+                    className="h-12 md:h-20 w-auto object-contain" 
+                  />
                </div>
             ) : (
-               <span className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter italic">
+               <span className="text-2xl font-black text-white uppercase tracking-tighter italic">
                  Csali<span className="text-yellow-500">Tamás</span>
                </span>
             )}
           </a>
           
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-8 font-bold text-slate-300 uppercase text-xs tracking-widest bg-slate-900/50 backdrop-blur-md px-8 py-3 rounded-full border border-white/10 shadow-lg">
+          <div className="hidden lg:flex items-center gap-8 font-bold text-slate-300 uppercase text-sm tracking-widest bg-slate-900/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
             {['Szolgáltatások', 'Referenciák', 'Kapcsolat'].map((item) => (
               <a 
                 key={item} 
                 href={`#${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} 
-                className="hover:text-yellow-500 transition-colors relative group py-1"
+                className="hover:text-yellow-500 transition-colors relative group py-2"
               >
                 {item}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
@@ -183,7 +183,7 @@ export default function Home() {
 
           {/* Call Button (Desktop) */}
           <div className="hidden lg:flex items-center">
-            <a href="tel:+36306457041" className="flex items-center gap-3 px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black text-sm uppercase tracking-wide rounded-lg transition-transform transform hover:-translate-y-1">
+            <a href="tel:+36306457041" className="flex items-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black uppercase tracking-wide rounded transition-transform transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.5)]">
               <Phone size={18} fill="currentColor" />
               <span>+36 30 645 7041</span>
             </a>
@@ -191,52 +191,53 @@ export default function Home() {
           
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden p-2 text-yellow-500 z-50 relative bg-slate-900/80 rounded border border-slate-700 active:scale-95 transition-transform" 
+            className="lg:hidden p-2 text-yellow-500 z-50 relative bg-slate-900/80 rounded" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Menü megnyitása"
           >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
           </button>
         </div>
 
         {/* Mobile Menu Dropdown */}
-        <div className={`fixed inset-x-0 top-0 pt-[calc(70px+env(safe-area-inset-top))] bg-slate-900/98 backdrop-blur-xl border-b border-slate-800 overflow-hidden transition-all duration-300 ease-in-out lg:hidden ${isMenuOpen ? 'max-h-screen opacity-100 py-6 shadow-2xl' : 'max-h-0 opacity-0 py-0'}`}>
-          <div className="container mx-auto px-6 flex flex-col gap-2">
+        <div className={`absolute top-full left-0 w-full bg-slate-900 border-t border-slate-800 overflow-hidden transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className="flex flex-col p-6 gap-4 shadow-2xl">
              {['Szolgáltatások', 'Referenciák', 'Kapcsolat'].map((item) => (
               <a 
                 key={item} 
                 href={`#${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} 
-                className="text-white text-lg font-bold uppercase tracking-wide flex justify-between items-center py-4 border-b border-slate-800/50"
+                className="text-white text-lg font-bold uppercase tracking-wide flex justify-between items-center py-3 border-b border-slate-800 hover:text-yellow-500 hover:pl-2 transition-all"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item} <ChevronRight size={18} className="text-yellow-500/50"/>
+                {item} <ChevronRight size={18} className="text-yellow-500"/>
               </a>
             ))}
-            <a href="tel:+36306457041" className="mt-6 flex justify-center items-center gap-3 w-full py-4 bg-yellow-500 text-slate-900 font-black uppercase rounded shadow-lg">
-              <Phone size={20} fill="currentColor" /> Hívás Indítása
+            <a href="tel:+36306457041" className="mt-4 flex justify-center items-center gap-2 w-full py-4 bg-yellow-500 text-slate-900 font-black uppercase rounded shadow-lg active:scale-95 transition-transform">
+              <Phone size={20} /> Hívás Indítása
             </a>
           </div>
         </div>
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <header className="relative w-full min-h-[100dvh] lg:h-screen flex items-center justify-center overflow-hidden bg-slate-900 pt-[calc(100px+env(safe-area-inset-top))] pb-16 lg:pt-0 lg:pb-0">
+     <header className="relative w-full min-h-[100dvh] lg:h-screen flex items-center justify-center overflow-hidden bg-slate-900 pt-[calc(100px+env(safe-area-inset-top))] pb-16 lg:pt-0 lg:pb-0">
         <div className="absolute inset-0 z-0">
           <img 
             src={images.hero} 
             alt="Csali Tamás Géppark Balaton" 
-            className="w-full h-full object-cover object-center animate-slow-zoom" 
+            className="w-full h-full object-cover animate-slow-zoom" 
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 text-white">
+        {/* Tartalom lejjebb tolása pt-20 (mobil) */}
+        <div className="container mx-auto px-4 relative z-10 text-white pt-20 md:pt-0">
           <RevealOnScroll>
             <div className="max-w-4xl mx-auto lg:mx-0 text-center lg:text-left">
               
-              <h1 className="text-[2.2rem] sm:text-[2.5rem] leading-[1.15] md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase italic tracking-tighter mb-8 drop-shadow-2xl">
-                <span className="block text-white mb-2 md:mb-4">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase italic tracking-tighter leading-tight mb-8 drop-shadow-2xl">
+                <span className="block text-white mb-2">
                   Profi Gépi Földmunka
                 </span>
                 <span className="block text-yellow-500 relative inline-block">
@@ -247,16 +248,16 @@ export default function Home() {
                 </span>
               </h1>
               
-              <p className="text-base md:text-xl lg:text-2xl text-slate-200 mb-10 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed drop-shadow-md bg-slate-900/40 p-4 rounded-xl backdrop-blur-sm border border-white/5">
+              <p className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed drop-shadow-md bg-slate-900/30 p-4 rounded-xl backdrop-blur-sm border border-white/5">
                 Legyen szó alapásásról, tereprendezésről vagy nehéz terepviszonyokról. 
-                <span className="text-white font-bold text-yellow-400 block sm:inline"> Megbízható CAT gépparkkal</span> és több éves szakmai tapasztalattal állunk rendelkezésére.
+                <span className="text-white font-bold text-yellow-400"> Megbízható CAT gépparkkal</span> és több éves szakmai tapasztalattal állunk rendelkezésére.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <a href="#kapcsolat" className="group px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black text-lg uppercase tracking-wide rounded shadow-xl flex items-center justify-center gap-3 transition-all hover:-translate-y-1">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pb-12 md:pb-0">
+                <a href="#kapcsolat" className="group px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black text-lg uppercase tracking-wide rounded shadow-[0_0_20px_rgba(234,179,8,0.3)] hover:shadow-[0_0_30px_rgba(234,179,8,0.6)] flex items-center justify-center gap-3 transition-all hover:-translate-y-1">
                   Ingyenes Felmérés <ArrowRight className="group-hover:translate-x-1 transition" size={20} />
                 </a>
-                <a href="#referenciak" className="px-8 py-4 border-2 border-slate-500 hover:border-yellow-500 text-white hover:text-yellow-500 font-bold text-lg uppercase tracking-wide rounded transition-all text-center bg-slate-900/60 backdrop-blur-sm">
+                <a href="#referenciak" className="px-8 py-4 border-2 border-slate-500 hover:border-yellow-500 text-white hover:text-yellow-500 font-bold text-lg uppercase tracking-wide rounded transition-all text-center bg-slate-900/60 backdrop-blur-sm hover:bg-slate-900/80">
                   Munkáink
                 </a>
               </div>
@@ -264,7 +265,7 @@ export default function Home() {
           </RevealOnScroll>
         </div>
         
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce scroll-indicator-wrapper opacity-60 z-20 hidden md:block">
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce scroll-indicator-wrapper opacity-60 z-20">
            <div className="flex flex-col items-center gap-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
              Görgessen le
              <ChevronUp className="rotate-180 text-yellow-500" />
@@ -449,7 +450,7 @@ export default function Home() {
                     Kérdése van? Munkát rendelne? <br className="hidden md:block"/>Hívjon bizalommal hétvégén is!
                   </p>
                   
-                  <div className="space-y-5 md:space-y-7">
+                  <div className="space-y-6 md:space-y-8">
                     <ContactItem icon={<Phone />} title="Telefon" content="+36 30 645 7041" href="tel:+36306457041" highlight />
                     <ContactItem icon={<Mail />} title="Email" content="csalitamas462@gmail.com" href="mailto:csalitamas462@gmail.com" />
                     <ContactItem icon={<MapPin />} title="Helyszín" content="Balatonederics és környéke" />
