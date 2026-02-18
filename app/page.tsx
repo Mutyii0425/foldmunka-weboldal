@@ -288,14 +288,15 @@ export default function Home() {
           {/* JAVÍTÁS: A sárga tábla alapján kiegészítve az összes szolgáltatással */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <ServiceCard delay={0} icon={<Layers />} title="Pincetömb Kiemelés" desc="Nagy tömegű föld megmozgatása pincékhez, medencékhez, azonnali elszállítással és elhelyezéssel." />
-            <ServiceCard delay={100} icon={<Shovel />} title="Alapásás" desc="Sávalap és pontalap ásása precíz méretekkel, tervrajz alapján." />
-            <ServiceCard delay={200} icon={<Hammer />} title="Épületbontás" desc="Teljeskörű bontás, beton feltörése és a keletkezett sitt szakszerű elszállítása hivatalos lerakóba." />
-            <ServiceCard delay={300} icon={<Shovel />} title="Közműárok Ásás" desc="Víz, gáz, villany és csatorna árkok gépi kiásása a megfelelő mélységben." />
-            <ServiceCard delay={400} icon={<Truck />} title="Tereprendezés" desc="Terület előkészítése, durva és finom tereprendezés, termőföld terítés." />
-            <ServiceCard delay={500} icon={<Axe />} title="Tuskózás" desc="Kivágott fák tuskóinak gépi eltávolítása és a terület megtisztítása." />
-            <ServiceCard delay={0} icon={<ShieldCheck />} title="Térkőágyazat Előkészítés" desc="Térkő alatti rétegrend (tükör) precíz kialakítása és tömörítése." />
-            <ServiceCard delay={100} icon={<CheckCircle />} title="Tükörszedés Szintezéssel" desc="A talaj felső rétegének eltávolítása és lézeres szintezése." />
-            <ServiceCard delay={200} icon={<Axe />} title="Gépi Rönkhasítás" desc="Nagy teljesítményű géppel történő hatékony tűzifa hasítás." />
+            <ServiceCard delay={50} icon={<Shovel />} title="Alapásás" desc="Sávalap és pontalap ásása precíz méretekkel, tervrajz alapján." />
+            <ServiceCard delay={100} icon={<Hammer />} title="Épületbontás" desc="Teljeskörű bontás, beton feltörése és a keletkezett sitt szakszerű elszállítása hivatalos lerakóba." />
+            <ServiceCard delay={150} icon={<Shovel />} title="Közműárok Ásás" desc="Víz, gáz, villany és csatorna árkok gépi kiásása a megfelelő mélységben." />
+            <ServiceCard delay={200} icon={<Truck />} title="Tereprendezés" desc="Terület előkészítése, durva és finom tereprendezés, termőföld terítés." />
+            <ServiceCard delay={250} icon={<Axe />} title="Tuskózás" desc="Kivágott fák tuskóinak gépi eltávolítása és a terület megtisztítása." />
+            <ServiceCard delay={300} icon={<ShieldCheck />} title="Térkőágyazat Előkészítés" desc="Térkő alatti rétegrend (tükör) precíz kialakítása és tömörítése." />
+            <ServiceCard delay={350} icon={<CheckCircle />} title="Tükörszedés Szintezéssel" desc="A talaj felső rétegének eltávolítása és lézeres szintezése." />
+            <ServiceCard delay={400} icon={<Axe />} title="Gépi Rönkhasítás" desc="Nagy teljesítményű géppel történő hatékony tűzifa hasítás." />
+            <ServiceCard delay={450} icon={<Truck />} title="Ömlesztettáru-fuvarozás" desc="Hatékony szállítás 3,5 tonnás autótól egészen a 40 tonnás nyerges szerelvényig." />
           </div>
         </div>
       </section>
