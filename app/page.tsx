@@ -125,8 +125,9 @@ export default function Home() {
     : portfolioItems.filter(item => item.cat === filter);
 
   // --- RENDER ---
+  // JAVÍTÁS: w-full és max-w-[100vw] hozzáadva
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900">
+    <div className="min-h-screen w-full max-w-[100vw] bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900 relative">
       
       {/* --- LIGHTBOX --- */}
       {activeImage && (
@@ -147,18 +148,19 @@ export default function Home() {
       )}
 
       {/* --- NAVBAR --- */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-slate-900 shadow-xl py-2' : 'bg-transparent py-4'}`}>
+      {/* JAVÍTÁS: top-0 left-0 hozzáadva */}
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-slate-900 shadow-xl py-2' : 'bg-transparent py-4'}`}>
         <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
           
           {/* Logo / Brand */}
           <a href="#" className="flex items-center gap-3 group z-50">
             {images.logo && images.logo !== "" ? (
                <div className="transform transition-transform group-hover:scale-105">
-                  <img 
-                    src={images.logo} 
-                    alt="Logo" 
-                    className="h-12 md:h-20 w-auto object-contain" 
-                  />
+                 <img 
+                   src={images.logo} 
+                   alt="Logo" 
+                   className="h-12 md:h-20 w-auto object-contain" 
+                 />
                </div>
             ) : (
                <span className="text-2xl font-black text-white uppercase tracking-tighter italic">
@@ -220,7 +222,8 @@ export default function Home() {
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <header className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-slate-900">
+      {/* JAVÍTÁS: h-[100dvh] és pb-16 hozzáadva */}
+      <header className="relative h-[100dvh] min-h-[700px] flex items-center justify-center overflow-hidden bg-slate-900 pb-16 md:pb-0">
         <div className="absolute inset-0 z-0">
           <img 
             src={images.hero} 
@@ -604,5 +607,5 @@ function ContactItem({ icon, title, content, href, highlight }: { icon: React.Re
         )}
       </div>
     </div>
-  ) //adad
+  )
 }
