@@ -93,6 +93,8 @@ export default function Home() {
     { src: "/images/teherautok.jpg", cat: "Fuvarozás", title: "Gépparkunk" },
     { src: "/images/teherautorakas.jpg", cat: "Fuvarozás", title: "Teherautó töltése" },
     { src: "/images/holdjaro.jpg", cat: "Fuvarozás", title: "Bála rakodás" },
+    { src: "/images/kamioncucc.jpg", cat: "Fuvarozás", title: "" },
+    { src: "/images/kamionkavics.jpg", cat: "Fuvarozás", title: "" },
 
     // ÚTÉPÍTÉS & TEREPRENDEZÉS
     { src: "/images/hosszuut1.jpg", cat: "Útépítés", title: "Murvás út építés" },
@@ -109,6 +111,9 @@ export default function Home() {
     { src: "/images/tuskozas.jpg", cat: "Tereprendezés", title: "Gépi tuskózás" },
     { src: "/images/epuletbontas.jpg", cat: "Tereprendezés", title: "Épületbontás" },
     { src: "/images/epuletutana.jpg", cat: "Tereprendezés", title: "Bontás utáni állapot" },
+    { src: "/images/terko.jpg", cat: "Tereprendezés", title: "" },
+    { src: "/images/terko1.jpg", cat: "Tereprendezés", title: "" },
+    { src: "/images/terko2.jpg", cat: "Tereprendezés", title: "" },
 
     // KÖZMŰ
     { src: "/images/arok1.jpg", cat: "Közmű", title: "Közműárok ásás" },
@@ -116,6 +121,7 @@ export default function Home() {
     { src: "/images/nemtudom.jpg", cat: "Közmű", title: "Gerincvezeték fektetés" },
     { src: "/images/tartaly.jpg", cat: "Közmű", title: "Tartály beemelés" },
     { src: "/images/tartalyok.jpg", cat: "Közmű", title: "Szennyvíztartály telepítés" },
+    { src: "/images/akna.jpg", cat: "Közmű", title: "Tartály telepítés" },
   ];
 
   const categories = ['Mind', 'Földmunka', 'Fuvarozás', 'Útépítés', 'Tereprendezés', 'Közmű'];
@@ -293,8 +299,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="geppark" className="py-24 bg-slate-950 relative overflow-hidden">
-        {/* Háttér textúrák a prémium hatásért */}
+    {/* --- GÉPPARK (KORRIGÁLT KÉPARÁNYOK) --- */}
+      <section id="geppark" className="py-16 md:py-24 bg-slate-950 relative overflow-hidden">
+        {/* Háttér effektek */}
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]"></div>
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2"></div>
         
@@ -302,69 +309,71 @@ export default function Home() {
           <SectionHeader title="Mivel dolgozunk?" subtitle="Gépparkunk" dark />
 
           <RevealOnScroll>
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <p className="text-slate-400 text-lg leading-relaxed">
+            <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 px-4">
+              <p className="text-slate-400 text-base md:text-lg leading-relaxed">
                 A hatékony munkavégzés alapja a megbízható technika. Folyamatosan karbantartott, modern 
                 <span className="text-yellow-500 font-bold"> Caterpillar és Mercedes</span> gépparkunkkal vállaljuk a legnehezebb terepviszonyokat is.
               </p>
             </div>
           </RevealOnScroll>
 
-          {/* BENTO GRID LAYOUT */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 min-h-[600px]">
+          {/* LAYOUT: Képarány alapú rács, hogy ne vágja le a gépeket */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
             
-            {/* 1. KÉP: FŐ CSOPORTKÉP (NAGY) - 8 egység széles */}
-            <div className="lg:col-span-8 relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-800 h-80 lg:h-auto">
+            {/* 1. KÉP: FŐ CSOPORTKÉP (BAL OLDAL) */}
+            {/* JAVÍTÁS: aspect-[4/3] fix magasság helyett, így nem nagyít bele */}
+            <div className="lg:col-span-8 relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[4/3]">
                <RevealOnScroll className="h-full w-full">
-                 <img src={images.fleet1} alt="Caterpillar Földmunkagépek" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90"></div>
-                 <div className="absolute bottom-0 left-0 p-8">
-                    <div className="inline-block px-3 py-1 mb-2 bg-yellow-500 text-slate-900 text-xs font-black uppercase rounded">Földmunka</div>
-                    <h3 className="text-white text-2xl md:text-4xl font-black uppercase italic mb-2">Caterpillar Flotta</h3>
-                    
+                 <img 
+                    src={images.fleet1} 
+                    alt="Caterpillar Földmunkagépek" 
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" 
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                 <div className="absolute bottom-0 left-0 p-5 md:p-8">
+                    <div className="inline-block px-3 py-1 mb-2 bg-yellow-500 text-slate-900 text-[10px] md:text-xs font-black uppercase rounded">Földmunka</div>
+                    <h3 className="text-white text-xl md:text-3xl font-black uppercase italic">Caterpillar Flotta</h3>
                  </div>
                </RevealOnScroll>
             </div>
 
-            {/* 2. KÉP: MINI KOTRÓ (KESKENY) - 4 egység széles */}
-            <div className="lg:col-span-4 relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-800 h-80 lg:h-auto">
-               <RevealOnScroll delay={100} className="h-full w-full">
-                 <img src={images.fleet4} alt="Mini kotrógép" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90"></div>
-                 <div className="absolute bottom-0 left-0 p-6">
-                    <div className="inline-block px-3 py-1 mb-2 bg-blue-500 text-white text-xs font-black uppercase rounded">Precizitás</div>
-                    <h3 className="text-white text-xl font-bold uppercase">Mini Kotró</h3>
-                    
-                 </div>
-               </RevealOnScroll>
-            </div>
+            {/* JOBB OLDALI OSZLOP (2 KÉP) */}
+            <div className="lg:col-span-4 flex flex-col gap-4 lg:gap-6">
+                
+                {/* 2. KÉP: TEHERAUTÓK (FELSŐ) */}
+                {/* JAVÍTÁS: aspect-[16/9] a szélesebb, panorámásabb megjelenésért */}
+                <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[16/9] lg:h-auto lg:flex-1">
+                   <RevealOnScroll delay={100} className="h-full w-full">
+                     <img 
+                        src={images.fleet2} 
+                        alt="Teherautó flotta" 
+                        className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" 
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                     <div className="absolute bottom-0 left-0 p-5 md:p-6">
+                        <div className="inline-block px-3 py-1 mb-2 bg-slate-700 text-white text-[10px] md:text-xs font-black uppercase rounded">Szállítás</div>
+                        <h3 className="text-white text-lg md:text-xl font-bold uppercase">Teherautó Park</h3>
+                     </div>
+                   </RevealOnScroll>
+                </div>
 
-            {/* 3. KÉP: TEHERAUTÓK (FELE-FELE) - 6 egység széles */}
-            <div className="lg:col-span-6 relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-800 h-64 lg:h-80">
-               <RevealOnScroll delay={200} className="h-full w-full">
-                 <img src={images.fleet2} alt="Teherautó flotta" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90"></div>
-                 <div className="absolute bottom-0 left-0 p-6">
-                    <div className="inline-block px-3 py-1 mb-2 bg-slate-700 text-white text-xs font-black uppercase rounded">Szállítás</div>
-                    <h3 className="text-white text-xl font-bold uppercase">Teherautó Park</h3>
-                    
-                 </div>
-               </RevealOnScroll>
-            </div>
+                {/* 3. KÉP: GABONASZÁLLÍTÓ (ALSÓ) */}
+                <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[16/9] lg:h-auto lg:flex-1">
+                   <RevealOnScroll delay={200} className="h-full w-full">
+                     <img 
+                        src={images.fleet3} 
+                        alt="Gabonaszállítás" 
+                        className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" 
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                     <div className="absolute bottom-0 left-0 p-5 md:p-6">
+                        <div className="inline-block px-3 py-1 mb-2 bg-orange-600 text-white text-[10px] md:text-xs font-black uppercase rounded">Mezőgazdaság</div>
+                        <h3 className="text-white text-lg md:text-xl font-bold uppercase">Gabonaszállítás</h3>
+                     </div>
+                   </RevealOnScroll>
+                </div>
 
-            {/* 4. KÉP: NYERGES VONTATÓ (FELE-FELE) - 6 egység széles */}
-            <div className="lg:col-span-6 relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-800 h-64 lg:h-80">
-               <RevealOnScroll delay={300} className="h-full w-full">
-                 <img src={images.fleet3} alt="Gabonaszállítás" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90"></div>
-                 <div className="absolute bottom-0 left-0 p-6">
-                    <div className="inline-block px-3 py-1 mb-2 bg-orange-600 text-white text-xs font-black uppercase rounded">Mezőgazdaság</div>
-                    <h3 className="text-white text-xl font-bold uppercase">Gabonaszállítás</h3>
-                    
-                 </div>
-               </RevealOnScroll>
             </div>
-
           </div>
         </div>
       </section>
