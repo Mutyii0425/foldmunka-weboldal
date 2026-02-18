@@ -220,7 +220,7 @@ export default function Home() {
       </nav>
 
       {/* --- HERO SECTION --- */}
-     <header className="relative w-full min-h-[100dvh] lg:h-screen flex items-center justify-center overflow-hidden bg-slate-900 pt-[calc(100px+env(safe-area-inset-top))] pb-16 lg:pt-0 lg:pb-0">
+     <header className="relative w-full min-h-[100dvh] lg:h-screen flex items-center justify-center overflow-hidden bg-slate-900 pt-[calc(60px+env(safe-area-inset-top))] pb-16 lg:pt-0 lg:pb-0">
         <div className="absolute inset-0 z-0">
           <img 
             src={images.hero} 
