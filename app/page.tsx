@@ -147,7 +147,7 @@ export default function Home() {
       )}
 
       {/* --- NAVBAR --- */}
-      <nav className={`fixed top-1 left-0 w-full z-50 transition-all duration-300 pt-[env(safe-area-inset-top)] ${scrolled || isMenuOpen ? 'bg-slate-900/95 shadow-xl py-2' : 'bg-transparent py-4'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-slate-900 shadow-xl py-2' : 'bg-transparent py-4'}`}>
         <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
           
           {/* Logo / Brand */}
@@ -220,7 +220,7 @@ export default function Home() {
       </nav>
 
       {/* --- HERO SECTION --- */}
-     <header className="relative w-full min-h-[100dvh] lg:h-screen flex items-center justify-center overflow-hidden bg-slate-900 pt-[calc(100px+env(safe-area-inset-top))] pb-16 lg:pt-0 lg:pb-0">
+      <header className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img 
             src={images.hero} 
@@ -557,7 +557,7 @@ export default function Home() {
 function SectionHeader({ title, subtitle, dark = false }: { title: string, subtitle: string, dark?: boolean }) {
   return (
     <RevealOnScroll>
-      <div className="min-h-screen w-full max-w-[100vw] bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900 relative">
+      <div className="text-center mb-16">
         <h2 className="text-yellow-500 font-black uppercase tracking-[0.2em] text-xs md:text-sm mb-3 flex items-center justify-center gap-2">
           <span className="w-8 h-[2px] bg-yellow-500 inline-block"></span>
           {subtitle}
@@ -604,5 +604,5 @@ function ContactItem({ icon, title, content, href, highlight }: { icon: React.Re
         )}
       </div>
     </div>
-  ) //adad
+  )
 }
