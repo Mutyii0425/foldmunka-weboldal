@@ -16,7 +16,15 @@ export const metadata: Metadata = {
   title: "Balaton Földmunka | Gépi Földmunka és Tereprendezés",
   description: "Profi gépi földmunka, tereprendezés, alapásás és anyagszállítás a Balaton körül. Kérjen ajánlatot még ma!",
   icons: {
-    icon: "/favicon.ico", // Ez hivatkozik a kis ikonra a böngésző fülön
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Balaton Földmunka - Tereprendezés",
+    description: "Alapásástól a kertépítésig minden, ami földmunka a Balatonnál.",
+    url: "https://www.balatonfoldmunka.hu",
+    siteName: "Balaton Földmunka",
+    locale: "hu_HU",
+    type: "website",
   },
 };
 
