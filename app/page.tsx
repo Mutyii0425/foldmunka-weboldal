@@ -116,10 +116,9 @@ export default function Home() {
     ? portfolioItems 
     : portfolioItems.filter(item => item.cat === filter);
 
-  // --- RENDER ---
   return (
-    // JAVÍTÁS: Visszatértünk a stabilabb alaphoz, csak az overflow-x-hidden marad
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900">
+    // FIX: w-full és overflow kezelés, hogy mobilon ne csúszkáljon oldalra
+    <div className="min-h-screen w-full max-w-[100vw] bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900 relative">
       
       {/* --- LIGHTBOX --- */}
       {activeImage && (
@@ -127,19 +126,20 @@ export default function Home() {
           className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-2 md:p-8 backdrop-blur-md animate-fade-in cursor-zoom-out" 
           onClick={() => setActiveImage(null)}
         >
-          <button className="absolute top-6 right-6 text-white/70 hover:text-yellow-500 transition p-2 z-50">
-            <X size={40} />
+          <button className="absolute top-6 right-6 text-white/70 hover:text-yellow-500 transition p-2 z-50 bg-black/50 rounded-full">
+            <X size={32} />
           </button>
           <img 
             src={activeImage} 
             alt="Nagyított kép" 
-            className="max-w-full max-h-[90vh] rounded-lg shadow-2xl border border-slate-700 object-contain" 
+            className="max-w-full max-h-[85vh] rounded-lg shadow-2xl border border-slate-700 object-contain" 
             onClick={(e) => e.stopPropagation()} 
           />
         </div>
       )}
 
       {/* --- NAVBAR --- */}
+      {/* FIX: 'top-0 left-0' a stabilitásért */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-slate-900/95 backdrop-blur-md shadow-xl py-3' : 'bg-transparent py-4 md:py-6'}`}>
         <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
           
@@ -213,10 +213,11 @@ export default function Home() {
       </nav>
 
       {/* --- HERO SECTION --- */}
-      {/* JAVÍTÁS: h-screen vagy 100dvh helyett min-h-screen és nagy padding (py-32). 
-          Ez a legbiztosabb megoldás Messengerben, mert így a tartalom "kitolja" magát, 
-          ha jönnek a menüsávok, nem pedig levágódik. */}
-      <header className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900 py-24 md:py-0">
+      {/* MEGOLDÁS: 
+          - Mobilon (alap): min-h-[100dvh] a Messenger miatt, és pt-24/pb-16 a sávok miatt.
+          - Gépen (lg:): h-screen a teljes képernyős hatáshoz, és pt-0/pb-0 mert ott középre rendez a flexbox. 
+      */}
+      <header className="relative w-full min-h-[100dvh] lg:min-h-[700px] lg:h-screen flex items-center justify-center overflow-hidden bg-slate-900 pt-24 pb-16 lg:pt-0 lg:pb-0">
         <div className="absolute inset-0 z-0">
           <img 
             src={images.hero} 
@@ -229,7 +230,7 @@ export default function Home() {
 
         <div className="container mx-auto px-4 relative z-10 text-white">
           <RevealOnScroll>
-            <div className="max-w-5xl mx-auto lg:mx-0 text-center lg:text-left pt-10 md:pt-0">
+            <div className="max-w-5xl mx-auto lg:mx-0 text-center lg:text-left">
               
               <h1 className="text-[2.2rem] sm:text-[2.5rem] leading-[1.15] md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase italic tracking-tighter mb-6 md:mb-8 drop-shadow-2xl">
                 <span className="block text-white mb-2 md:mb-4">
@@ -260,8 +261,8 @@ export default function Home() {
           </RevealOnScroll>
         </div>
         
-        {/* Scroll Indicator - Csak nagyobb magasságnál látszik, hogy ne lógjon bele semmibe mobilon */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce scroll-indicator-wrapper opacity-60 z-20">
+        {/* Scroll Indicator - Mobilon kicsit feljebb, Gépen lentebb */}
+        <div className="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce scroll-indicator-wrapper opacity-60 z-20">
            <div className="flex flex-col items-center gap-2 text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">
              Görgessen le
              <ChevronUp className="rotate-180 text-yellow-500" />
