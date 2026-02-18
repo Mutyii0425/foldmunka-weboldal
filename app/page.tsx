@@ -46,6 +46,19 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }: { children: Rea
   );
 };
 
+export const metadata = {
+  title: 'Balaton Földmunka | Gépi Földmunka és Tereprendezés',
+  description: 'Profi gépi földmunka, tereprendezés, alapásás és anyagszállítás a Balaton körül. Megbízható munkavégzés, korszerű gépparkkal.',
+  openGraph: {
+    title: 'Balaton Földmunka - Tereprendezés és Gépi Földmunka',
+    description: 'Alapásástól a kertépítésig minden, ami földmunka a Balatonnál.',
+    url: 'https://www.balatonfoldmunka.hu',
+    siteName: 'Balaton Földmunka',
+    locale: 'hu_HU',
+    type: 'website',
+  },
+}
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<string | null>(null);
