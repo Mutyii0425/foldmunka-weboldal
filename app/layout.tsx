@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Balaton Földmunka | Gépi Földmunka és Tereprendezés",
-  description: "Profi gépi földmunka, tereprendezés, alapásás és anyagszállítás a Balaton körül. Kérjen ajánlatot még ma!",
+  description: "Profi gépi földmunka, tereprendezés, alapásás és anyagszállítás Balatonederics környékén. Kérjen ajánlatot még ma!",
   icons: {
     icon: "/favicon.ico",
   },
