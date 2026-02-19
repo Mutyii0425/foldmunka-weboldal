@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: "Balaton Földmunka",
     locale: "hu_HU",
     type: "website",
-  },
+  },//jdhfjdf
 };
 
 export default function RootLayout({
