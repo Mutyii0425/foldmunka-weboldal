@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Balaton Földmunka | Gépi Földmunka & Fuvarozás",
+  title: "Csali Tamás | Gépi Földmunka & Fuvarozás",
   description: "Profi gépi földmunka, tereprendezés, alapásás és anyagszállítás Balatonederics környékén. Kérjen ajánlatot még ma!",
   icons: {
     icon: "/favicon.ico",
