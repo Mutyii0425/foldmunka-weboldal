@@ -46,6 +46,50 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }: { children: Rea
   );
 };
 
+// --- ÚJ: SZÁMLÁLÓ KOMPONENS ---
+function AnimatedCounter({ end, label, suffix = "" }: { end: number, label: string, suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.unobserve(entry.target);
+      }
+    }, { threshold: 0.5 });
+    if (ref.current) observer.observe(ref.current);
+    return () => { if (ref.current) observer.unobserve(ref.current); };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    let start = 0;
+    const duration = 2000; 
+    const increment = end / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.ceil(start));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [isVisible, end]);
+
+  return (
+    <div ref={ref} className="text-center p-6 bg-slate-900/50 rounded-2xl border border-white/5 backdrop-blur-sm transform hover:-translate-y-2 transition-transform duration-300 shadow-2xl">
+      <div className="text-4xl md:text-5xl lg:text-6xl font-black text-yellow-500 mb-2 drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]">
+        {count}{suffix}
+      </div>
+      <div className="text-slate-300 font-bold uppercase tracking-widest text-xs md:text-sm">{label}</div>
+    </div>
+  );
+}
+
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,7 +97,7 @@ export default function Home() {
   const [filter, setFilter] = useState('Mind');
   const [scrolled, setScrolled] = useState(false);
   
-  // --- ÚJ: COOKIE ÁLLAPOT ---
+  // COOKIE ÁLLAPOT
   const [cookieConsent, setCookieConsent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -62,19 +106,17 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // --- ÚJ: COOKIE ELLENŐRZÉS ÉS GA INJEKTÁLÁS ---
+  // COOKIE ELLENŐRZÉS ÉS GA INJEKTÁLÁS
   useEffect(() => {
-    // Megnézzük, van-e már elmentett válasz
     const consent = localStorage.getItem('cookieConsent');
     if (consent) {
       setCookieConsent(consent);
     } else {
-      setCookieConsent('pending'); // Ha nincs, meg kell jeleníteni a sávot
+      setCookieConsent('pending');
     }
   }, []);
 
   useEffect(() => {
-    // Csak akkor indítjuk a statisztikát, ha elfogadták!
     if (cookieConsent === 'accepted') {
       const script1 = document.createElement('script');
       script1.async = true;
@@ -106,10 +148,9 @@ export default function Home() {
   const images = {
     logo: "/images/logo3.png", 
     hero: "/images/gepek1.jpg",
-    
-    fleet1: "/images/gepek.jpg",      // A naplementés csoportkép
-    fleet2: "/images/teherautok.jpg", // A sorban álló teherautók
-    fleet3: "/images/kamion.jpg",     // A gabonaszállító a mezőn
+    fleet1: "/images/gepek.jpg",
+    fleet2: "/images/teherautok.jpg",
+    fleet3: "/images/kamion.jpg",
     fleet4: "/images/szepgep.jpg",
   };
 
@@ -185,7 +226,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900">
       
-      {/* --- ÚJ: COOKIE SÁV --- */}
+      {/* COOKIE SÁV */}
       {cookieConsent === 'pending' && (
         <div className="fixed bottom-0 left-0 w-full z-[120] bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] transform transition-transform animate-fade-in">
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
@@ -210,16 +251,16 @@ export default function Home() {
         </div>
       )}
 
-      {/* --- ÚJ: LEBEGŐ TELEFON GOMB MOBILRA --- */}
+      {/* LEBEGŐ TELEFON GOMB MOBILRA */}
       <a 
         href="tel:+36306457041" 
-        className="lg:hidden fixed bottom-6 right-6 z-[90] bg-yellow-500 text-slate-900 px-5 py-3 rounded-full shadow-[0_5px_20px_rgba(234,179,8,0.5)] font-black uppercase tracking-wide flex items-center gap-2 transition-transform active:scale-95"
+        className="lg:hidden fixed bottom-6 right-6 z-[90] bg-yellow-500 text-slate-900 px-5 py-3 rounded-full shadow-[0_5px_20px_rgba(234,179,8,0.5)] font-black uppercase tracking-wide flex items-center gap-2 transition-transform active:scale-95 hover:bg-yellow-400"
       >
         <Phone size={20} className="animate-pulse" /> 
         <span>Hívás</span>
       </a>
 
-      {/* --- LIGHTBOX --- */}
+      {/* LIGHTBOX */}
       {activeImage && (
         <div 
           className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-2 md:p-8 backdrop-blur-md animate-fade-in cursor-zoom-out" 
@@ -237,19 +278,13 @@ export default function Home() {
         </div>
       )}
 
-      {/* --- NAVBAR --- */}
+      {/* NAVBAR */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-slate-900 shadow-xl py-2' : 'bg-transparent py-4'}`}>
         <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
-          
-          {/* Logo / Brand */}
           <a href="#" className="flex items-center gap-3 group z-50">
             {images.logo && images.logo !== "" ? (
                <div className="transform transition-transform group-hover:scale-105">
-                  <img 
-                    src={images.logo} 
-                    alt="Logo" 
-                    className="h-12 md:h-20 w-auto object-contain" 
-                  />
+                  <img src={images.logo} alt="Logo" className="h-12 md:h-20 w-auto object-contain" />
                </div>
             ) : (
                <span className="text-2xl font-black text-white uppercase tracking-tighter italic">
@@ -258,21 +293,15 @@ export default function Home() {
             )}
           </a>
           
-          {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8 font-bold text-slate-300 uppercase text-sm tracking-widest bg-slate-900/50 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
             {['Szolgáltatások', 'Referenciák', 'Kapcsolat'].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} 
-                className="hover:text-yellow-500 transition-colors relative group py-2"
-              >
+              <a key={item} href={`#${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} className="hover:text-yellow-500 transition-colors relative group py-2">
                 {item}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
           </div>
 
-          {/* Call Button (Desktop) */}
           <div className="hidden lg:flex items-center">
             <a href="tel:+36306457041" className="flex items-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black uppercase tracking-wide rounded transition-transform transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.5)]">
               <Phone size={18} fill="currentColor" />
@@ -280,12 +309,7 @@ export default function Home() {
             </a>
           </div>
           
-          {/* Mobile Menu Toggle */}
-          <button 
-            className="lg:hidden p-2 text-yellow-500 z-50 relative bg-slate-900/80 rounded" 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Menü megnyitása"
-          >
+          <button className="lg:hidden p-2 text-yellow-500 z-50 relative bg-slate-900/80 rounded" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menü megnyitása">
             {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
           </button>
         </div>
@@ -294,12 +318,7 @@ export default function Home() {
         <div className={`absolute top-full left-0 w-full bg-slate-900 border-t border-slate-800 overflow-hidden transition-all duration-500 ease-in-out ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
           <div className="flex flex-col p-6 gap-4 shadow-2xl">
              {['Szolgáltatások', 'Referenciák', 'Kapcsolat'].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} 
-                className="text-white text-lg font-bold uppercase tracking-wide flex justify-between items-center py-3 border-b border-slate-800 hover:text-yellow-500 hover:pl-2 transition-all"
-                onClick={() => setIsMenuOpen(false)}
-              >
+              <a key={item} href={`#${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} className="text-white text-lg font-bold uppercase tracking-wide flex justify-between items-center py-3 border-b border-slate-800 hover:text-yellow-500 hover:pl-2 transition-all" onClick={() => setIsMenuOpen(false)}>
                 {item} <ChevronRight size={18} className="text-yellow-500"/>
               </a>
             ))}
@@ -310,14 +329,9 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* --- HERO SECTION --- */}
+      {/* --- HERO SECTION --- (Hozzáadva bg-fixed parallax effekt) */}
       <header className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-slate-900">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={images.hero} 
-            alt="Csali Tamás Géppark Balaton" 
-            className="w-full h-full object-cover animate-slow-zoom" 
-          />
+        <div className="absolute inset-0 z-0 bg-fixed bg-center bg-cover" style={{ backgroundImage: `url(${images.hero})` }}>
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]"></div>
         </div>
@@ -325,11 +339,8 @@ export default function Home() {
         <div className="container mx-auto px-4 relative z-10 text-white pt-20 md:pt-0">
           <RevealOnScroll>
             <div className="max-w-4xl mx-auto lg:mx-0 text-center lg:text-left">
-              
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase italic tracking-tighter leading-tight mb-8 drop-shadow-2xl">
-                <span className="block text-white mb-2">
-                  Profi Gépi Földmunka
-                </span>
+                <span className="block text-white mb-2">Profi Gépi Földmunka</span>
                 <span className="block text-yellow-500 relative inline-block">
                   & Fuvarozás
                   <svg className="absolute w-full h-3 -bottom-2 left-0 text-yellow-600 opacity-60" viewBox="0 0 100 10" preserveAspectRatio="none">
@@ -338,7 +349,7 @@ export default function Home() {
                 </span>
               </h1>
               
-              <p className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed drop-shadow-md bg-slate-900/30 p-4 rounded-xl backdrop-blur-sm border border-white/5">
+              <p className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed drop-shadow-md bg-slate-900/40 p-5 rounded-xl backdrop-blur-sm border border-white/10">
                 Legyen szó alapásásról, tereprendezésről vagy nehéz terepviszonyokról. 
                 <span className="text-white font-bold text-yellow-400"> Megbízható CAT gépparkkal</span> és több éves szakmai tapasztalattal állunk rendelkezésére.
               </p>
@@ -354,17 +365,36 @@ export default function Home() {
             </div>
           </RevealOnScroll>
         </div>
-        
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce scroll-indicator-wrapper opacity-60 z-20">
-           <div className="flex flex-col items-center gap-2 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-             Görgessen le
-             <ChevronUp className="rotate-180 text-yellow-500" />
-           </div>
-        </div>
       </header>
 
+      {/* --- ÚJ: FIGYELEMFELKELTŐ SÁV (MARQUEE) --- */}
+      <div className="bg-yellow-500 text-slate-900 py-3 overflow-hidden border-y-4 border-slate-900 shadow-2xl relative z-20 flex">
+        <div className="animate-marquee flex gap-10 items-center font-black uppercase tracking-[0.2em] text-sm md:text-base whitespace-nowrap pr-10">
+          {[...Array(6)].map((_, i) => (
+            <React.Fragment key={i}>
+              <span className="flex items-center gap-2"><CheckCircle size={18} /> Precíz Munkavégzés</span>
+              <span className="flex items-center gap-2"><Truck size={18} /> Megbízható Géppark</span>
+              <span className="flex items-center gap-2"><ShieldCheck size={18} /> Ingyenes Felmérés</span>
+              <span className="flex items-center gap-2"><Hammer size={18} /> Határidőre</span>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      {/* --- ÚJ: STATISZTIKA SÁV --- */}
+      <section className="bg-slate-950 py-16 relative overflow-hidden border-b border-slate-800">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(234,179,8,0.05)_0%,transparent_100%)]"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <AnimatedCounter end={10} label="Év Szakmai Tapasztalat" suffix="+" />
+            <AnimatedCounter end={300} label="Sikeres Projekt" suffix="+" />
+            <AnimatedCounter end={100} label="Elégedett Ügyfél" suffix="%" />
+          </div>
+        </div>
+      </section>
+
       {/* --- SZOLGÁLTATÁSOK --- */}
-      <section id="szolgaltatasok" className="py-24 bg-slate-50 relative">
+      <section id="szolgaltatasok" className="py-24 bg-slate-50 relative pb-32">
         <div className="container mx-auto px-4 relative z-10">
           <SectionHeader title="Miben segíthetünk?" subtitle="Szolgáltatásaink" />
 
@@ -383,12 +413,12 @@ export default function Home() {
         </div>
       </section>
 
-    {/* --- GÉPPARK --- */}
-      <section id="geppark" className="py-16 md:py-24 bg-slate-950 relative overflow-hidden">
+      {/* --- GÉPPARK (ÚJ CLIP-PATH FERDE ÉLEK) --- */}
+      <section id="geppark" className="py-24 bg-slate-950 relative overflow-hidden -mt-10 pb-32" style={{ clipPath: "polygon(0 4vw, 100% 0, 100% calc(100% - 4vw), 0 100%)" }}>
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]"></div>
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2"></div>
         
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 relative z-10 pt-10">
           <SectionHeader title="Mivel dolgozunk?" subtitle="Gépparkunk" dark />
 
           <RevealOnScroll>
@@ -401,14 +431,9 @@ export default function Home() {
           </RevealOnScroll>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
-            
             <div className="lg:col-span-8 relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[4/3]">
                <RevealOnScroll className="h-full w-full">
-                 <img 
-                    src={images.fleet1} 
-                    alt="Caterpillar Földmunkagépek" 
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" 
-                 />
+                 <img src={images.fleet1} alt="Caterpillar Földmunkagépek" className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" />
                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                  <div className="absolute bottom-0 left-0 p-5 md:p-8">
                     <div className="inline-block px-3 py-1 mb-2 bg-yellow-500 text-slate-900 text-[10px] md:text-xs font-black uppercase rounded">Földmunka</div>
@@ -418,14 +443,9 @@ export default function Home() {
             </div>
 
             <div className="lg:col-span-4 flex flex-col gap-4 lg:gap-6">
-                
                 <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[16/9] lg:h-auto lg:flex-1">
                    <RevealOnScroll delay={100} className="h-full w-full">
-                     <img 
-                        src={images.fleet2} 
-                        alt="Teherautó flotta" 
-                        className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" 
-                     />
+                     <img src={images.fleet2} alt="Teherautó flotta" className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" />
                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                      <div className="absolute bottom-0 left-0 p-5 md:p-6">
                         <div className="inline-block px-3 py-1 mb-2 bg-slate-700 text-white text-[10px] md:text-xs font-black uppercase rounded">Szállítás</div>
@@ -436,11 +456,7 @@ export default function Home() {
 
                 <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[16/9] lg:h-auto lg:flex-1">
                    <RevealOnScroll delay={200} className="h-full w-full">
-                     <img 
-                        src={images.fleet3} 
-                        alt="Gabonaszállítás" 
-                        className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" 
-                     />
+                     <img src={images.fleet3} alt="Gabonaszállítás" className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" />
                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                      <div className="absolute bottom-0 left-0 p-5 md:p-6">
                         <div className="inline-block px-3 py-1 mb-2 bg-orange-600 text-white text-[10px] md:text-xs font-black uppercase rounded">Mezőgazdaság</div>
@@ -448,18 +464,17 @@ export default function Home() {
                      </div>
                    </RevealOnScroll>
                 </div>
-
             </div>
           </div>
         </div>
       </section>
 
       {/* --- GALÉRIA --- */}
-      <section id="referenciak" className="py-24 bg-slate-900 text-white relative overflow-hidden">
+      <section id="referenciak" className="py-24 bg-slate-900 text-white relative overflow-hidden -mt-10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 relative z-10 pt-10">
           <SectionHeader title="Eddigi munkáink" subtitle="Referenciák" dark />
           
           <RevealOnScroll>
@@ -480,19 +495,15 @@ export default function Home() {
             </div>
           </RevealOnScroll>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 min-h-[400px]">
+          {/* ÚJ: key={filter} kényszeríti az újrarenderezést (animáció újraindul) */}
+          <div key={filter} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 min-h-[400px]">
             {filteredItems.map((item, idx) => (
               <RevealOnScroll key={`${item.src}-${idx}`} delay={(idx % 4) * 50}>
                 <div 
                   className="group relative aspect-[4/3] overflow-hidden rounded-xl cursor-pointer bg-slate-800 border border-slate-700 shadow-xl"
                   onClick={() => setActiveImage(item.src)}
                 >
-                  <img 
-                    src={item.src} 
-                    alt={item.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                    loading="lazy"
-                  />
+                  <img src={item.src} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                     <span className="text-yellow-400 text-[10px] font-black uppercase tracking-widest mb-1">{item.cat}</span>
                     <h4 className="text-white font-bold text-base leading-tight">{item.title}</h4>
@@ -522,7 +533,6 @@ export default function Home() {
           <RevealOnScroll>
             <div className="max-w-6xl mx-auto bg-white shadow-[0_15px_40px_rgba(0,0,0,0.1)] rounded-2xl md:rounded-3xl overflow-hidden flex flex-col md:flex-row border border-white">
               
-              {/* BAL OLDAL */}
               <div className="bg-slate-900 p-8 md:p-14 md:w-5/12 text-white relative overflow-hidden flex flex-col justify-between">
                 <div className="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-yellow-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-32 h-32 md:w-40 md:h-40 bg-blue-500/10 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2"></div>
@@ -549,7 +559,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* JOBB OLDAL */}
               <div className="p-8 md:p-14 md:w-7/12 bg-slate-50/50 flex flex-col justify-center relative">
                 <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-60 pointer-events-none"></div>
                 
@@ -561,11 +570,7 @@ export default function Home() {
                   
                   <div className="flex items-center gap-4 mb-8 md:mb-10 p-4 md:p-5 bg-slate-900 rounded-xl md:rounded-2xl border border-slate-800 shadow-2xl transform hover:scale-[1.01] transition-transform duration-300">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shrink-0 border-2 border-yellow-500 flex items-center justify-center p-1 bg-slate-800">
-                        <img 
-                          src={images.logo} 
-                          alt="Csali Tamás Logo" 
-                          className="w-full h-full object-contain" 
-                        />
+                        <img src={images.logo} alt="Csali Tamás Logo" className="w-full h-full object-contain" />
                     </div>
                     <div>
                         <p className="text-white font-bold text-base md:text-lg leading-tight mb-0.5">Csali Tamás</p>
@@ -613,19 +618,20 @@ export default function Home() {
           from { opacity: 0; transform: scale(0.95); }
           to { opacity: 1; transform: scale(1); }
         }
+        /* ÚJ MARQUEE ANIMÁCIÓ */
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 25s linear infinite;
+          width: max-content;
+        }
         .will-change-transform {
           will-change: transform, opacity;
         }
         html {
           scroll-behavior: smooth;
-        }
-        .scroll-indicator-wrapper {
-            display: none;
-        }
-        @media (min-height: 800px) {
-            .scroll-indicator-wrapper {
-                display: block;
-            }
         }
       `}</style>
     </div>
@@ -656,7 +662,6 @@ function ServiceCard({ icon, title, desc, delay }: { icon: React.ReactNode, titl
     <RevealOnScroll delay={delay} className="h-full">
       <div className="group p-6 md:p-8 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-500 border border-slate-200/60 hover:border-yellow-500 shadow-xl hover:shadow-2xl hover:shadow-yellow-500/10 rounded-2xl h-full flex flex-col relative overflow-hidden transform hover:-translate-y-2">
         <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-yellow-500/5 rounded-full transition-transform group-hover:scale-150 duration-500"></div>
-        
         <div className="mb-4 md:mb-6 inline-flex p-3 md:p-4 bg-slate-50 text-yellow-600 rounded-2xl group-hover:bg-yellow-500 group-hover:text-slate-900 transition-colors duration-300 w-fit shadow-inner group-hover:shadow-lg">
           {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-6 h-6 md:w-8 md:h-8" })}
         </div>
