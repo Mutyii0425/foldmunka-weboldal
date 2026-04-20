@@ -80,6 +80,8 @@ export default function Home() {
     { src: "/images/alapasas.jpg", cat: "Földmunka", title: "Gép és teherautó összhang" },
     { src: "/images/alapcsinalas.jpg", cat: "Földmunka", title: "Alap kitűzés és ásás" },
     { src: "/images/pincekiemeles.jpg", cat: "Földmunka", title: "Pince tömbkiemelés" },
+    { src: "/images/tukorasas.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
+    { src: "/images/tukosessavalap.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
 
     // FUVAROZÁS
     { src: "/images/kamion1.jpg", cat: "Fuvarozás", title: "Éjszakai gabona szállítás" },
@@ -94,8 +96,11 @@ export default function Home() {
     { src: "/images/teherautok.jpg", cat: "Fuvarozás", title: "Gépparkunk" },
     { src: "/images/teherautorakas.jpg", cat: "Fuvarozás", title: "Teherautó töltése" },
     { src: "/images/holdjaro.jpg", cat: "Fuvarozás", title: "Bála rakodás" },
-    { src: "/images/kamioncucc.jpg", cat: "Fuvarozás", title: "" },
-    { src: "/images/kamionkavics.jpg", cat: "Fuvarozás", title: "" },
+    { src: "/images/kamioncucc.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
+    { src: "/images/kamionkavics.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
+    { src: "/images/fuvarozas1.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
+    { src: "/images/fuvarozas0.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
+    { src: "/images/fuvarozas.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
 
     // ÚTÉPÍTÉS & TEREPRENDEZÉS
     { src: "/images/hosszuut1.jpg", cat: "Útépítés", title: "Murvás út építés" },
@@ -115,6 +120,8 @@ export default function Home() {
     { src: "/images/terko.jpg", cat: "Tereprendezés", title: "" },
     { src: "/images/terko1.jpg", cat: "Tereprendezés", title: "" },
     { src: "/images/terko2.jpg", cat: "Tereprendezés", title: "" },
+    { src: "/images/kavicsozas.jpg", cat: "Tereprendezés", title: "Felvonulási terület kavicsozása" },
+    { src: "/images/tereprendezes.jpg", cat: "Tereprendezés", title: "Tereprendezés" },
 
     // KÖZMŰ
     { src: "/images/arok1.jpg", cat: "Közmű", title: "Közműárok ásás" },
