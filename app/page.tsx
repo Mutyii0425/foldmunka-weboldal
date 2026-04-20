@@ -52,12 +52,55 @@ export default function Home() {
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [filter, setFilter] = useState('Mind');
   const [scrolled, setScrolled] = useState(false);
+  
+  // --- ÚJ: COOKIE ÁLLAPOT ---
+  const [cookieConsent, setCookieConsent] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // --- ÚJ: COOKIE ELLENŐRZÉS ÉS GA INJEKTÁLÁS ---
+  useEffect(() => {
+    // Megnézzük, van-e már elmentett válasz
+    const consent = localStorage.getItem('cookieConsent');
+    if (consent) {
+      setCookieConsent(consent);
+    } else {
+      setCookieConsent('pending'); // Ha nincs, meg kell jeleníteni a sávot
+    }
+  }, []);
+
+  useEffect(() => {
+    // Csak akkor indítjuk a statisztikát, ha elfogadták!
+    if (cookieConsent === 'accepted') {
+      const script1 = document.createElement('script');
+      script1.async = true;
+      script1.src = "https://www.googletagmanager.com/gtag/js?id=G-16MN3JVH53";
+      document.head.appendChild(script1);
+
+      const script2 = document.createElement('script');
+      script2.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-16MN3JVH53');
+      `;
+      document.head.appendChild(script2);
+    }
+  }, [cookieConsent]);
+
+  const handleAcceptCookies = () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    setCookieConsent('accepted');
+  };
+
+  const handleDeclineCookies = () => {
+    localStorage.setItem('cookieConsent', 'declined');
+    setCookieConsent('declined');
+  };
 
   // --- ADATOK ---
   const images = {
@@ -142,6 +185,40 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900">
       
+      {/* --- ÚJ: COOKIE SÁV --- */}
+      {cookieConsent === 'pending' && (
+        <div className="fixed bottom-0 left-0 w-full z-[120] bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] transform transition-transform animate-fade-in">
+          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-slate-300 text-sm md:text-base text-center md:text-left">
+              Weboldalunk az élmény javítása és névtelen látogatottsági statisztikák készítése érdekében sütiket (cookie-kat) használ.
+            </div>
+            <div className="flex gap-3 shrink-0">
+              <button 
+                onClick={handleDeclineCookies}
+                className="px-4 py-2 text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 rounded transition-colors text-xs font-bold uppercase"
+              >
+                Elutasít
+              </button>
+              <button 
+                onClick={handleAcceptCookies}
+                className="px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded font-black uppercase text-xs md:text-sm transition-colors shadow-[0_0_15px_rgba(234,179,8,0.3)]"
+              >
+                Elfogadom
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- ÚJ: LEBEGŐ TELEFON GOMB MOBILRA --- */}
+      <a 
+        href="tel:+36306457041" 
+        className="lg:hidden fixed bottom-6 right-6 z-[90] bg-yellow-500 text-slate-900 px-5 py-3 rounded-full shadow-[0_5px_20px_rgba(234,179,8,0.5)] font-black uppercase tracking-wide flex items-center gap-2 transition-transform active:scale-95"
+      >
+        <Phone size={20} className="animate-pulse" /> 
+        <span>Hívás</span>
+      </a>
+
       {/* --- LIGHTBOX --- */}
       {activeImage && (
         <div 
@@ -245,7 +322,6 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]"></div>
         </div>
 
-        {/* Tartalom lejjebb tolása pt-20 (mobil) */}
         <div className="container mx-auto px-4 relative z-10 text-white pt-20 md:pt-0">
           <RevealOnScroll>
             <div className="max-w-4xl mx-auto lg:mx-0 text-center lg:text-left">
@@ -292,7 +368,6 @@ export default function Home() {
         <div className="container mx-auto px-4 relative z-10">
           <SectionHeader title="Miben segíthetünk?" subtitle="Szolgáltatásaink" />
 
-          {/* JAVÍTÁS: A sárga tábla alapján kiegészítve az összes szolgáltatással */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <ServiceCard delay={0} icon={<Layers />} title="Pincetömb Kiemelés" desc="Nagy tömegű föld megmozgatása pincékhez, medencékhez, azonnali elszállítással és elhelyezéssel." />
             <ServiceCard delay={50} icon={<Shovel />} title="Alapásás" desc="Sávalap és pontalap ásása precíz méretekkel, tervrajz alapján." />
@@ -308,9 +383,8 @@ export default function Home() {
         </div>
       </section>
 
-    {/* --- GÉPPARK (KORRIGÁLT KÉPARÁNYOK) --- */}
+    {/* --- GÉPPARK --- */}
       <section id="geppark" className="py-16 md:py-24 bg-slate-950 relative overflow-hidden">
-        {/* Háttér effektek */}
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]"></div>
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2"></div>
         
@@ -326,11 +400,8 @@ export default function Home() {
             </div>
           </RevealOnScroll>
 
-          {/* LAYOUT: Képarány alapú rács, hogy ne vágja le a gépeket */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
             
-            {/* 1. KÉP: FŐ CSOPORTKÉP (BAL OLDAL) */}
-            {/* JAVÍTÁS: aspect-[4/3] fix magasság helyett, így nem nagyít bele */}
             <div className="lg:col-span-8 relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[4/3]">
                <RevealOnScroll className="h-full w-full">
                  <img 
@@ -346,11 +417,8 @@ export default function Home() {
                </RevealOnScroll>
             </div>
 
-            {/* JOBB OLDALI OSZLOP (2 KÉP) */}
             <div className="lg:col-span-4 flex flex-col gap-4 lg:gap-6">
                 
-                {/* 2. KÉP: TEHERAUTÓK (FELSŐ) */}
-                {/* JAVÍTÁS: aspect-[16/9] a szélesebb, panorámásabb megjelenésért */}
                 <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[16/9] lg:h-auto lg:flex-1">
                    <RevealOnScroll delay={100} className="h-full w-full">
                      <img 
@@ -366,7 +434,6 @@ export default function Home() {
                    </RevealOnScroll>
                 </div>
 
-                {/* 3. KÉP: GABONASZÁLLÍTÓ (ALSÓ) */}
                 <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[16/9] lg:h-auto lg:flex-1">
                    <RevealOnScroll delay={200} className="h-full w-full">
                      <img 
@@ -448,7 +515,6 @@ export default function Home() {
 
      {/* --- KAPCSOLAT --- */}
       <section id="kapcsolat" className="py-16 md:py-24 bg-slate-50 relative overflow-hidden">
-        {/* HÁTTÉR EFFEKTEK */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-50 to-slate-200"></div>
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
 
@@ -456,9 +522,8 @@ export default function Home() {
           <RevealOnScroll>
             <div className="max-w-6xl mx-auto bg-white shadow-[0_15px_40px_rgba(0,0,0,0.1)] rounded-2xl md:rounded-3xl overflow-hidden flex flex-col md:flex-row border border-white">
               
-              {/* BAL OLDAL (SÖTÉT) */}
+              {/* BAL OLDAL */}
               <div className="bg-slate-900 p-8 md:p-14 md:w-5/12 text-white relative overflow-hidden flex flex-col justify-between">
-                {/* Dekoratív elemek */}
                 <div className="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-yellow-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-32 h-32 md:w-40 md:h-40 bg-blue-500/10 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2"></div>
                 
@@ -484,9 +549,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* JOBB OLDAL (VILÁGOS) */}
+              {/* JOBB OLDAL */}
               <div className="p-8 md:p-14 md:w-7/12 bg-slate-50/50 flex flex-col justify-center relative">
-                {/* Finom rács textúra csak a jobb oldalon */}
                 <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-60 pointer-events-none"></div>
                 
                 <div className="relative z-10">
@@ -495,7 +559,6 @@ export default function Home() {
                     A földmunka jellegéből adódóan a legpontosabb árajánlatot <strong>telefonon vagy helyszíni felmérés</strong> után tudjuk adni. Keressen minket bizalommal!
                   </p>
                   
-                  {/* PROFIL KÁRTYA - Mobilon kompaktabb */}
                   <div className="flex items-center gap-4 mb-8 md:mb-10 p-4 md:p-5 bg-slate-900 rounded-xl md:rounded-2xl border border-slate-800 shadow-2xl transform hover:scale-[1.01] transition-transform duration-300">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shrink-0 border-2 border-yellow-500 flex items-center justify-center p-1 bg-slate-800">
                         <img 
@@ -556,7 +619,6 @@ export default function Home() {
         html {
           scroll-behavior: smooth;
         }
-        /* Itt oldjuk meg, hogy a görgetés jelző csak nagy képernyőn látszódjon */
         .scroll-indicator-wrapper {
             display: none;
         }
