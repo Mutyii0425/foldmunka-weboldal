@@ -120,7 +120,7 @@ export default function Home() {
     { src: "/images/terko.jpg", cat: "Tereprendezés", title: "" },
     { src: "/images/terko1.jpg", cat: "Tereprendezés", title: "" },
     { src: "/images/terko2.jpg", cat: "Tereprendezés", title: "" },
-    { src: "/images/kavicsozas.jpg", cat: "Tereprendezés", title: "Felvonulási terület kavicsozása" },
+    { src: "/images/kavicsozas.jpg", cat: "Útépítés", title: "Felvonulási terület kavicsozása" },
     { src: "/images/tereprendezes.jpg", cat: "Tereprendezés", title: "Tereprendezés" },
 
     // KÖZMŰ
