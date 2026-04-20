@@ -367,32 +367,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* --- ÚJ: FIGYELEMFELKELTŐ SÁV (MARQUEE) --- */}
-      <div className="bg-yellow-500 text-slate-900 py-3 overflow-hidden border-y-4 border-slate-900 shadow-2xl relative z-20 flex">
-        <div className="animate-marquee flex gap-10 items-center font-black uppercase tracking-[0.2em] text-sm md:text-base whitespace-nowrap pr-10">
-          {[...Array(6)].map((_, i) => (
-            <React.Fragment key={i}>
-              <span className="flex items-center gap-2"><CheckCircle size={18} /> Precíz Munkavégzés</span>
-              <span className="flex items-center gap-2"><Truck size={18} /> Megbízható Géppark</span>
-              <span className="flex items-center gap-2"><ShieldCheck size={18} /> Ingyenes Felmérés</span>
-              <span className="flex items-center gap-2"><Hammer size={18} /> Határidőre</span>
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-
-      {/* --- ÚJ: STATISZTIKA SÁV --- */}
-      <section className="bg-slate-950 py-16 relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(234,179,8,0.05)_0%,transparent_100%)]"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <AnimatedCounter end={10} label="Év Szakmai Tapasztalat" suffix="+" />
-            <AnimatedCounter end={300} label="Sikeres Projekt" suffix="+" />
-            <AnimatedCounter end={100} label="Elégedett Ügyfél" suffix="%" />
-          </div>
-        </div>
-      </section>
-
       {/* --- SZOLGÁLTATÁSOK --- */}
       <section id="szolgaltatasok" className="py-24 bg-slate-50 relative pb-32">
         <div className="container mx-auto px-4 relative z-10">
