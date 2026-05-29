@@ -166,7 +166,6 @@ export default function Home() {
     { src: "/images/pincekiemeles.jpg", cat: "Földmunka", title: "Pince tömbkiemelés" },
     { src: "/images/tukorasas.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
     { src: "/images/tukosessavalap.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
-    { src: "/images/fold1.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
     { src: "/images/partoldal.jpg", cat: "Földmunka", title: "Partoldal" },
 
     // FUVAROZÁS
