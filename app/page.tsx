@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { 
   Phone, Mail, MapPin, CheckCircle, Truck, Shovel, Hammer, 
   ArrowRight, Menu, ShieldCheck, Layers, Axe, X, ChevronRight, 
-  Star, Filter, ChevronUp 
+  Star, Filter, ChevronUp, Forklift
 } from 'lucide-react';
 
 // --- TÍPUSOK ---
@@ -150,7 +150,7 @@ export default function Home() {
     hero: "/images/gepek1.jpg",
     fleet1: "/images/gepek.jpg",
     fleet2: "/images/teherautok.jpg",
-    fleet3: "/images/kamion.jpg",
+    fleet3: "/images/ujgep.jpg",
     fleet4: "/images/szepgep.jpg",
   };
 
@@ -166,6 +166,8 @@ export default function Home() {
     { src: "/images/pincekiemeles.jpg", cat: "Földmunka", title: "Pince tömbkiemelés" },
     { src: "/images/tukorasas.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
     { src: "/images/tukosessavalap.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
+    { src: "/images/fold1.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
+    { src: "/images/partoldal.jpg", cat: "Földmunka", title: "Partoldal" },
 
     // FUVAROZÁS
     { src: "/images/kamion1.jpg", cat: "Fuvarozás", title: "Éjszakai gabona szállítás" },
@@ -204,8 +206,14 @@ export default function Home() {
     { src: "/images/terko.jpg", cat: "Tereprendezés", title: "" },
     { src: "/images/terko1.jpg", cat: "Tereprendezés", title: "" },
     { src: "/images/terko2.jpg", cat: "Tereprendezés", title: "" },
-    { src: "/images/kavicsozas.jpg", cat: "Útépítés", title: "Felvonulási terület kavicsozása" },
+    { src: "/images/kavicsozas2.jpg", cat: "Útépítés", title: "Felvonulási terület kavicsozása" },
     { src: "/images/tereprendezes.jpg", cat: "Tereprendezés", title: "Tereprendezés" },
+    { src: "/images/fold1.jpg", cat: "Tereprendezés", title: "Tereprendezés" },
+    { src: "/images/gazolas.jpg", cat: "Tereprendezés", title: "Tereptisztítás" },
+    { src: "/images/jokep.jpg", cat: "Tereprendezés", title: "" },
+    { src: "/images/jokep1.jpg", cat: "Tereprendezés", title: "" },
+    { src: "/images/kavicsozas.jpg", cat: "Útépítés", title: "" },
+    { src: "/images/kavicsozas1.jpg", cat: "Útépítés", title: "" },
 
     // KÖZMŰ
     { src: "/images/arok1.jpg", cat: "Közmű", title: "Közműárok ásás" },
@@ -383,6 +391,7 @@ export default function Home() {
             <ServiceCard delay={350} icon={<CheckCircle />} title="Tükörszedés Szintezéssel" desc="A talaj felső rétegének eltávolítása és lézeres szintezése." />
             <ServiceCard delay={400} icon={<Axe />} title="Gépi Rönkhasítás" desc="Nagy teljesítményű géppel történő hatékony tűzifa hasítás." />
             <ServiceCard delay={450} icon={<Truck />} title="Ömlesztettáru-fuvarozás" desc="Hatékony szállítás 3,5 tonnás autótól egészen a 40 tonnás nyerges szerelvényig." />
+            <ServiceCard delay={500} icon={<Forklift />} title="Építőipari anyagmozgatás" desc="Caterpillar 408D teleszkópos rakodó: 8 méteres kinyúlás és akár 4 tonnás emelési kapacitás." />
           </div>
         </div>
       </section>
@@ -430,11 +439,11 @@ export default function Home() {
 
                 <div className="relative group rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-800 aspect-[16/9] lg:h-auto lg:flex-1">
                    <RevealOnScroll delay={200} className="h-full w-full">
-                     <img src={images.fleet3} alt="Gabonaszállítás" className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" />
+                     <img src={images.fleet3} alt="Építőipari anyagmozgatás" className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-102" />
                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                      <div className="absolute bottom-0 left-0 p-5 md:p-6">
-                        <div className="inline-block px-3 py-1 mb-2 bg-orange-600 text-white text-[10px] md:text-xs font-black uppercase rounded">Mezőgazdaság</div>
-                        <h3 className="text-white text-lg md:text-xl font-bold uppercase">Gabonaszállítás</h3>
+                        <div className="inline-block px-3 py-1 mb-2 bg-orange-600 text-white text-[10px] md:text-xs font-black uppercase rounded">Építőipar</div>
+                        <h3 className="text-white text-lg md:text-xl font-bold uppercase">Építőipari anyagmozgatás</h3>
                      </div>
                    </RevealOnScroll>
                 </div>
