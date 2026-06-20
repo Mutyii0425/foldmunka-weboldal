@@ -25,7 +25,7 @@ const NAV_LINKS = [
 
 const IMAGES = {
   logo: "/images/logo3.png", 
-  hero: "/images/szepgep.jpg", 
+  hero: "/images/ketgep.jpg", 
   fleet1: "/images/gepek.jpg",
   fleet2: "/images/teherautok.jpg",
   fleet3: "/images/ujgep.jpg",
