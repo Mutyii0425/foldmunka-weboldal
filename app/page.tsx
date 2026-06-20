@@ -24,8 +24,8 @@ const NAV_LINKS = [
 ];
 
 const IMAGES = {
-  logo: "/images/szepgep.png", 
-  hero: "/images/gepek1.jpg", 
+  logo: "/images/logo3.png", 
+  hero: "/images/szepgep.jpg", 
   fleet1: "/images/gepek.jpg",
   fleet2: "/images/teherautok.jpg",
   fleet3: "/images/ujgep.jpg",
