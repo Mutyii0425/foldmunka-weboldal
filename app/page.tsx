@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 import { 
   Phone, Mail, MapPin, CheckCircle, Truck, Shovel, Hammer, 
-  ArrowRight, Menu, ShieldCheck, Layers, Axe, X, ChevronRight, 
+  ArrowRight, Menu, ShieldCheck, Layers, Axe, X, ChevronRight, ChevronLeft,
   Star, Forklift
 } from 'lucide-react';
 
@@ -25,7 +25,6 @@ const NAV_LINKS = [
 
 const IMAGES = {
   logo: "/images/logo3.png", 
-  // --- ÁTÍRANDÓ: Ide tedd a szép új háttérképedet ---
   hero: "/images/gepek1.jpg", 
   fleet1: "/images/gepek.jpg",
   fleet2: "/images/teherautok.jpg",
@@ -138,11 +137,12 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }: { children: Rea
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+  
+  // MÓDOSÍTVA: activeImage helyett az indexet tároljuk
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  
   const [filter, setFilter] = useState('Mind');
   const [scrolled, setScrolled] = useState(false);
-  
-  // COOKIE ÁLLAPOT
   const [cookieConsent, setCookieConsent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -174,6 +174,37 @@ export default function Home() {
   const filteredItems = filter === 'Mind' 
     ? PORTFOLIO_ITEMS 
     : PORTFOLIO_ITEMS.filter(item => item.cat === filter);
+
+  // --- ÚJ GALÉRIA LOGIKA ---
+  const closeLightbox = useCallback(() => {
+    setActiveIndex(null);
+  }, []);
+
+  const showNext = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation(); // Megállítja a bezárást, ha a nyílra kattintunk
+    if (activeIndex === null) return;
+    setActiveIndex((prevIndex) => (prevIndex! + 1) % filteredItems.length);
+  }, [activeIndex, filteredItems.length]);
+
+  const showPrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation(); // Megállítja a bezárást, ha a nyílra kattintunk
+    if (activeIndex === null) return;
+    setActiveIndex((prevIndex) => (prevIndex! - 1 + filteredItems.length) % filteredItems.length);
+  }, [activeIndex, filteredItems.length]);
+
+  // Billentyűzet figyelése (ESC, Nyilak)
+  useEffect(() => {
+    if (activeIndex === null) return; // Csak akkor figyelünk, ha nyitva van a galéria
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeIndex, closeLightbox, showNext, showPrev]);
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900">
@@ -227,22 +258,46 @@ export default function Home() {
         <span>Hívás</span>
       </a>
 
-      {/* LIGHTBOX */}
-      {activeImage && (
+      {/* LIGHTBOX (MÓDOSÍTVA: Léptetés és gyorsítás) */}
+      {activeIndex !== null && (
         <div 
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-2 md:p-8 backdrop-blur-md animate-fade-in cursor-zoom-out" 
-          onClick={() => setActiveImage(null)}
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-2 md:p-8 backdrop-blur-md animate-fade-in cursor-pointer" 
+          onClick={closeLightbox} // Háttérre kattintva bezár
         >
+          {/* Bezáró gomb */}
           <button className="absolute top-6 right-6 text-white/70 hover:text-yellow-500 transition p-2 z-50">
             <X size={40} />
           </button>
-          <div className="relative w-full h-[90vh] max-w-5xl" onClick={(e) => e.stopPropagation()}>
+          
+          {/* Balra nyíl */}
+          <button 
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-slate-900/50 text-white/70 hover:text-yellow-500 p-3 md:p-4 rounded-full z-50 transition hover:bg-slate-800"
+            onClick={showPrev}
+          >
+            <ChevronLeft size={32} />
+          </button>
+          
+          {/* Jobbra nyíl */}
+          <button 
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-slate-900/50 text-white/70 hover:text-yellow-500 p-3 md:p-4 rounded-full z-50 transition hover:bg-slate-800"
+            onClick={showNext}
+          >
+            <ChevronRight size={32} />
+          </button>
+
+          <div className="relative w-full h-[90vh] max-w-5xl cursor-default" onClick={(e) => e.stopPropagation()}>
+            {/* NEXT/IMAGE prioritással a gyors betöltésért */}
             <Image 
-              src={activeImage} 
-              alt="Nagyított kép" 
+              src={filteredItems[activeIndex].src} 
+              alt={filteredItems[activeIndex].title} 
               fill
+              priority // GYORSÍTÁS: Azonnal elkezdi tölteni, prioritással
               className="object-contain rounded-lg shadow-2xl" 
             />
+            {/* Cím alul (opcionális) */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/70 px-4 py-2 rounded-full text-white/90 text-sm font-medium backdrop-blur-sm z-10 text-center min-w-[200px]">
+                {filteredItems[activeIndex].title}
+            </div>
           </div>
         </div>
       )}
@@ -336,7 +391,7 @@ export default function Home() {
                 <span className="text-white font-bold text-yellow-400"> Megbízható CAT gépparkkal</span> és több éves szakmai tapasztalattal állunk rendelkezésére.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pb-12 md:pb-0">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pb-12 md:pt-0">
                 <a href="#kapcsolat" className="group px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black text-lg uppercase tracking-wide rounded shadow-[0_0_20px_rgba(234,179,8,0.3)] hover:shadow-[0_0_30px_rgba(234,179,8,0.6)] flex items-center justify-center gap-3 transition-all hover:-translate-y-1">
                   Ingyenes Felmérés <ArrowRight className="group-hover:translate-x-1 transition" size={20} />
                 </a>
@@ -439,7 +494,10 @@ export default function Home() {
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setFilter(cat)}
+                  onClick={() => {
+                    setFilter(cat);
+                    setActiveIndex(null); // Bezárjuk a lightboxot, ha kategóriát váltunk
+                  }}
                   className={`px-5 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 border ${
                     filter === cat 
                       ? 'bg-yellow-500 border-yellow-500 text-slate-900 shadow-[0_0_15px_rgba(234,179,8,0.4)] transform scale-105' 
@@ -457,7 +515,8 @@ export default function Home() {
               <RevealOnScroll key={`${item.src}-${idx}`} delay={(idx % 4) * 50}>
                 <div 
                   className="group relative aspect-[4/3] overflow-hidden rounded-xl cursor-pointer bg-slate-800 border border-slate-700 shadow-xl"
-                  onClick={() => setActiveImage(item.src)}
+                  // MÓDOSÍTVA: Az indexet adjuk át
+                  onClick={() => setActiveIndex(idx)}
                 >
                   <Image 
                     src={item.src} 
@@ -600,7 +659,7 @@ export default function Home() {
   );
 }
 
-// --- SEGÉDKOMPONENSEK ---
+// --- SEGÉDKOMPONENSEK (Változatlanok) ---
 
 function SectionHeader({ title, subtitle, dark = false }: { title: string, subtitle: string, dark?: boolean }) {
   return (
