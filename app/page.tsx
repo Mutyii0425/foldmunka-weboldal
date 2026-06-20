@@ -25,7 +25,8 @@ const NAV_LINKS = [
 
 const IMAGES = {
   logo: "/images/logo3.png", 
-  hero: "/images/gepek1.jpg",
+  // --- ÁTÍRANDÓ: Ide tedd a szép új háttérképedet ---
+  hero: "/images/gepek1.jpg", 
   fleet1: "/images/gepek.jpg",
   fleet2: "/images/teherautok.jpg",
   fleet3: "/images/ujgep.jpg",
@@ -297,16 +298,27 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* --- HERO SECTION --- */}
+      {/* --- HERO SECTION --- (Optimalizált kép háttérrel) */}
       <header className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-slate-900">
-        <div className="absolute inset-0 z-0">
-          {/* Next.js Image a háttérhez */}
-          <Image src={IMAGES.hero} alt="Földmunka háttér" fill className="object-cover object-center fixed" priority />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]"></div>
+        
+        {/* HÁTTÉRKÉP KONTÉNER */}
+        <div className="absolute inset-0 z-0 h-full w-full overflow-hidden">
+          {/* Next.js Image a háttérhez (Auto optimalizált) */}
+          <Image 
+            src={IMAGES.hero} 
+            alt="Földmunka és Fuvarozás háttér" 
+            fill 
+            priority // Kritikus a LCP teljesítmény miatt
+            className="object-cover object-center fixed animate-slow-zoom" // Hozzáadva a lassú úszó animáció
+          />
+          
+          {/* SÖTÉTÍTŐ OVERLAY-EK (Az olvashatóság miatt) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40 z-10"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-10"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 text-white pt-20 md:pt-0">
+        {/* HERO TARTALOM */}
+        <div className="container mx-auto px-4 relative z-20 text-white pt-20 md:pt-0">
           <RevealOnScroll>
             <div className="max-w-4xl mx-auto lg:mx-0 text-center lg:text-left">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase italic tracking-tighter leading-tight mb-8 drop-shadow-2xl">
