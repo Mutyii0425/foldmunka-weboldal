@@ -24,7 +24,7 @@ const NAV_LINKS = [
 ];
 
 const IMAGES = {
-  logo: "/images/logo3.png", 
+  logo: "/images/szepgep.png", 
   hero: "/images/gepek1.jpg", 
   fleet1: "/images/gepek.jpg",
   fleet2: "/images/teherautok.jpg",
@@ -47,6 +47,7 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { src: "/images/tukorasas.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
   { src: "/images/tukosessavalap.jpg", cat: "Földmunka", title: "Tükör és sávalap ásás" },
   { src: "/images/partoldal.jpg", cat: "Földmunka", title: "Partoldal" },
+  { src: "/images/partoldal2.jpg", cat: "Földmunka", title: "Partoldal kialakítása" },
 
   // FUVAROZÁS
   { src: "/images/kamion1.jpg", cat: "Fuvarozás", title: "Éjszakai gabona szállítás" },
@@ -66,6 +67,7 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { src: "/images/fuvarozas1.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/fuvarozas0.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/fuvarozas.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
+    { src: "/images/bala.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
 
   // ÚTÉPÍTÉS & TEREPRENDEZÉS
   { src: "/images/hosszuut1.jpg", cat: "Útépítés", title: "Murvás út építés" },
