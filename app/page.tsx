@@ -137,8 +137,6 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }: { children: Rea
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  // MÓDOSÍTVA: activeImage helyett az indexet tároljuk
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   
   const [filter, setFilter] = useState('Mind');
@@ -175,26 +173,26 @@ export default function Home() {
     ? PORTFOLIO_ITEMS 
     : PORTFOLIO_ITEMS.filter(item => item.cat === filter);
 
-  // --- ÚJ GALÉRIA LOGIKA ---
+  // --- GALÉRIA LOGIKA ---
   const closeLightbox = useCallback(() => {
     setActiveIndex(null);
   }, []);
 
   const showNext = useCallback((e?: React.MouseEvent) => {
-    e?.stopPropagation(); // Megállítja a bezárást, ha a nyílra kattintunk
+    e?.stopPropagation(); 
     if (activeIndex === null) return;
     setActiveIndex((prevIndex) => (prevIndex! + 1) % filteredItems.length);
   }, [activeIndex, filteredItems.length]);
 
   const showPrev = useCallback((e?: React.MouseEvent) => {
-    e?.stopPropagation(); // Megállítja a bezárást, ha a nyílra kattintunk
+    e?.stopPropagation(); 
     if (activeIndex === null) return;
     setActiveIndex((prevIndex) => (prevIndex! - 1 + filteredItems.length) % filteredItems.length);
   }, [activeIndex, filteredItems.length]);
 
   // Billentyűzet figyelése (ESC, Nyilak)
   useEffect(() => {
-    if (activeIndex === null) return; // Csak akkor figyelünk, ha nyitva van a galéria
+    if (activeIndex === null) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeLightbox();
@@ -209,7 +207,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden selection:bg-yellow-500 selection:text-slate-900">
       
-      {/* GOOGLE ANALYTICS (Csak elfogadás esetén tölt be!) */}
+      {/* GOOGLE ANALYTICS */}
       {cookieConsent === 'accepted' && (
         <>
           <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-16MN3JVH53" />
@@ -258,18 +256,16 @@ export default function Home() {
         <span>Hívás</span>
       </a>
 
-      {/* LIGHTBOX (MÓDOSÍTVA: Léptetés és gyorsítás) */}
+      {/* LIGHTBOX PRELOAD-DAL */}
       {activeIndex !== null && (
         <div 
           className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-2 md:p-8 backdrop-blur-md animate-fade-in cursor-pointer" 
-          onClick={closeLightbox} // Háttérre kattintva bezár
+          onClick={closeLightbox}
         >
-          {/* Bezáró gomb */}
           <button className="absolute top-6 right-6 text-white/70 hover:text-yellow-500 transition p-2 z-50">
             <X size={40} />
           </button>
           
-          {/* Balra nyíl */}
           <button 
             className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-slate-900/50 text-white/70 hover:text-yellow-500 p-3 md:p-4 rounded-full z-50 transition hover:bg-slate-800"
             onClick={showPrev}
@@ -277,7 +273,6 @@ export default function Home() {
             <ChevronLeft size={32} />
           </button>
           
-          {/* Jobbra nyíl */}
           <button 
             className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-slate-900/50 text-white/70 hover:text-yellow-500 p-3 md:p-4 rounded-full z-50 transition hover:bg-slate-800"
             onClick={showNext}
@@ -286,15 +281,33 @@ export default function Home() {
           </button>
 
           <div className="relative w-full h-[90vh] max-w-5xl cursor-default" onClick={(e) => e.stopPropagation()}>
-            {/* NEXT/IMAGE prioritással a gyors betöltésért */}
+            
+            {/* 1. AZ AKTUÁLIS, LÁTHATÓ KÉP */}
             <Image 
               src={filteredItems[activeIndex].src} 
               alt={filteredItems[activeIndex].title} 
               fill
-              priority // GYORSÍTÁS: Azonnal elkezdi tölteni, prioritással
+              priority
               className="object-contain rounded-lg shadow-2xl" 
             />
-            {/* Cím alul (opcionális) */}
+
+            {/* 2. LÁTHATATLAN ELŐTÖLTÉS (PRELOAD) A HÁTTÉRBEN */}
+            <div className="hidden">
+              <Image 
+                src={filteredItems[(activeIndex + 1) % filteredItems.length].src} 
+                alt="next-preload" 
+                priority 
+                fill 
+              />
+              <Image 
+                src={filteredItems[(activeIndex - 1 + filteredItems.length) % filteredItems.length].src} 
+                alt="prev-preload" 
+                priority 
+                fill 
+              />
+            </div>
+
+            {/* CÍM ALUL */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/70 px-4 py-2 rounded-full text-white/90 text-sm font-medium backdrop-blur-sm z-10 text-center min-w-[200px]">
                 {filteredItems[activeIndex].title}
             </div>
@@ -353,26 +366,20 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* --- HERO SECTION --- (Optimalizált kép háttérrel) */}
+      {/* --- HERO SECTION --- */}
       <header className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-slate-900">
-        
-        {/* HÁTTÉRKÉP KONTÉNER */}
         <div className="absolute inset-0 z-0 h-full w-full overflow-hidden">
-          {/* Next.js Image a háttérhez (Auto optimalizált) */}
           <Image 
             src={IMAGES.hero} 
             alt="Földmunka és Fuvarozás háttér" 
             fill 
-            priority // Kritikus a LCP teljesítmény miatt
-            className="object-cover object-center fixed animate-slow-zoom" // Hozzáadva a lassú úszó animáció
+            priority
+            className="object-cover object-center fixed animate-slow-zoom"
           />
-          
-          {/* SÖTÉTÍTŐ OVERLAY-EK (Az olvashatóság miatt) */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40 z-10"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-10"></div>
         </div>
 
-        {/* HERO TARTALOM */}
         <div className="container mx-auto px-4 relative z-20 text-white pt-20 md:pt-0">
           <RevealOnScroll>
             <div className="max-w-4xl mx-auto lg:mx-0 text-center lg:text-left">
@@ -496,7 +503,7 @@ export default function Home() {
                   key={cat}
                   onClick={() => {
                     setFilter(cat);
-                    setActiveIndex(null); // Bezárjuk a lightboxot, ha kategóriát váltunk
+                    setActiveIndex(null); 
                   }}
                   className={`px-5 py-2.5 rounded-full font-bold uppercase text-xs tracking-wider transition-all duration-300 border ${
                     filter === cat 
@@ -515,7 +522,6 @@ export default function Home() {
               <RevealOnScroll key={`${item.src}-${idx}`} delay={(idx % 4) * 50}>
                 <div 
                   className="group relative aspect-[4/3] overflow-hidden rounded-xl cursor-pointer bg-slate-800 border border-slate-700 shadow-xl"
-                  // MÓDOSÍTVA: Az indexet adjuk át
                   onClick={() => setActiveIndex(idx)}
                 >
                   <Image 
@@ -659,7 +665,7 @@ export default function Home() {
   );
 }
 
-// --- SEGÉDKOMPONENSEK (Változatlanok) ---
+// --- SEGÉDKOMPONENSEK ---
 
 function SectionHeader({ title, subtitle, dark = false }: { title: string, subtitle: string, dark?: boolean }) {
   return (
