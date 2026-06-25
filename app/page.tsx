@@ -107,7 +107,15 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { src: "/images/gabonaaru.jpg", cat: "Mezőgazdaság", title: "Kombájn kiszolgálás" },
   { src: "/images/holdjaro.jpg", cat: "Mezőgazdaság", title: "Bála rakás" },
   { src: "/images/bala.jpg", cat: "Mezőgazdaság", title: "Fuvarozás" },
-  { src: "/images/kombajn.jpg", cat: "Mezőgazdaság", title: "Aratás logisztika" },
+  { src: "/images/kombajn.jpg", cat: "Mezőgazdaság", title: "Aratás " },
+
+  //GÉPEK
+  { src: "/images/gepek.jpg", cat: "Gépek", title: "Kisgépek" },
+  { src: "/images/teherautok.jpg", cat: "Gépek", title: "Teherautók" },
+  { src: "/images/kamion.jpg", cat: "Gépek", title: "Kamion" },
+  { src: "/images/szepgep.jpg", cat: "Gépek", title: "Kisgép" },
+  { src: "/images/ujgep.jpg", cat: "Gépek", title: "Teleszkópos rakodó" },
+  { src: "/images/ketgep.jpg", cat: "Gépek", title: "" },
 ];
 
 // --- ANIMÁCIÓS KOMPONENS ---
