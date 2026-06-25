@@ -32,7 +32,7 @@ const IMAGES = {
   fleet4: "/images/szepgep.jpg",
 };
 
-const CATEGORIES = ['Mind', 'Földmunka', 'Fuvarozás', 'Útépítés', 'Tereprendezés', 'Közmű', 'Gépek', 'Aratás'];
+const CATEGORIES = ['Mind', 'Földmunka', 'Fuvarozás', 'Útépítés', 'Tereprendezés', 'Közmű', 'Gépek', 'Mezőgazdaság'];
 
 const PORTFOLIO_ITEMS: PortfolioItem[] = [
   // FÖLDMUNKA
@@ -53,21 +53,17 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { src: "/images/kamion1.jpg", cat: "Fuvarozás", title: "Éjszakai gabona szállítás" },
   { src: "/images/kamion2.jpg", cat: "Fuvarozás", title: "Mezőgazdasági fuvar" },
   { src: "/images/kamionrakas.jpg", cat: "Fuvarozás", title: "Kamion megrakása" },
-  { src: "/images/gabonaaru.jpg", cat: "Fuvarozás", title: "Kombájn kiszolgálás" },
-  { src: "/images/gabonaaru1.jpg", cat: "Fuvarozás", title: "Kukorica aratás" },
-  { src: "/images/kombajn.jpg", cat: "Fuvarozás", title: "Aratás logisztika" },
   { src: "/images/banya.jpg", cat: "Fuvarozás", title: "Bányai rakodás" },
   { src: "/images/nagyteher.jpg", cat: "Fuvarozás", title: "Építőanyag szállítás" },
   { src: "/images/kettonagy.jpg", cat: "Fuvarozás", title: "Gabona tárolás" },
   { src: "/images/teherautok.jpg", cat: "Fuvarozás", title: "Gépparkunk" },
   { src: "/images/teherautorakas.jpg", cat: "Fuvarozás", title: "Teherautó töltése" },
-  { src: "/images/holdjaro.jpg", cat: "Fuvarozás", title: "Bála rakodás" },
   { src: "/images/kamioncucc.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/kamionkavics.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/fuvarozas1.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/fuvarozas0.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/fuvarozas.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
-    { src: "/images/bala.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
+
 
   // ÚTÉPÍTÉS & TEREPRENDEZÉS
   { src: "/images/hosszuut1.jpg", cat: "Útépítés", title: "Murvás út építés" },
@@ -103,6 +99,15 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { src: "/images/tartaly.jpg", cat: "Közmű", title: "Tartály beemelés" },
   { src: "/images/tartalyok.jpg", cat: "Közmű", title: "Szennyvíztartály telepítés" },
   { src: "/images/akna.jpg", cat: "Közmű", title: "Tartály telepítés" },
+
+  //MEZŐGAZDASÁG
+   { src: "/images/aratas.jpg", cat: "Mezőgazdaság", title: "Aratás" },
+  { src: "/images/naplementi1.jpg", cat: "Mezőgazdaság", title: "Gabona aratás" },
+  { src: "/images/gabonaaru1.jpg", cat: "Mezőgazdaság", title: "Kamion megrakása" },
+  { src: "/images/gabonaaru.jpg", cat: "Mezőgazdaság", title: "Kombájn kiszolgálás" },
+  { src: "/images/holdjaro.jpg", cat: "Mezőgazdaság", title: "Bála rakás" },
+  { src: "/images/bala.jpg", cat: "Mezőgazdaság", title: "Fuvarozás" },
+  { src: "/images/kombajn.jpg", cat: "Mezőgazdaság", title: "Aratás logisztika" },
 ];
 
 // --- ANIMÁCIÓS KOMPONENS ---
