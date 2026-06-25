@@ -51,16 +51,13 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
 
   // FUVAROZÁS
   { src: "/images/kamion1.jpg", cat: "Fuvarozás", title: "Éjszakai gabona szállítás" },
-  { src: "/images/kamion2.jpg", cat: "Fuvarozás", title: "Mezőgazdasági fuvar" },
   { src: "/images/kamionrakas.jpg", cat: "Fuvarozás", title: "Kamion megrakása" },
   { src: "/images/banya.jpg", cat: "Fuvarozás", title: "Bányai rakodás" },
   { src: "/images/nagyteher.jpg", cat: "Fuvarozás", title: "Építőanyag szállítás" },
-  { src: "/images/kettonagy.jpg", cat: "Fuvarozás", title: "Gabona tárolás" },
   { src: "/images/teherautok.jpg", cat: "Fuvarozás", title: "Gépparkunk" },
   { src: "/images/teherautorakas.jpg", cat: "Fuvarozás", title: "Teherautó töltése" },
   { src: "/images/kamioncucc.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/kamionkavics.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
-  { src: "/images/fuvarozas1.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/fuvarozas0.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
   { src: "/images/fuvarozas.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
 
@@ -108,6 +105,9 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { src: "/images/holdjaro.jpg", cat: "Mezőgazdaság", title: "Bála rakás" },
   { src: "/images/bala.jpg", cat: "Mezőgazdaság", title: "Fuvarozás" },
   { src: "/images/kombajn.jpg", cat: "Mezőgazdaság", title: "Aratás " },
+   { src: "/images/kamion2.jpg", cat: "Fuvarozás", title: "Mezőgazdasági fuvar" },
+   { src: "/images/kettonagy.jpg", cat: "Fuvarozás", title: "Gabona tárolás" },
+     { src: "/images/fuvarozas1.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
 
   //GÉPEK
   { src: "/images/gepek.jpg", cat: "Gépek", title: "Kisgépek" },
