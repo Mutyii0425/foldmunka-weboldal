@@ -32,7 +32,7 @@ const IMAGES = {
   fleet4: "/images/szepgep.jpg",
 };
 
-const CATEGORIES = ['Mind', 'Földmunka', 'Fuvarozás', 'Útépítés', 'Tereprendezés', 'Közmű'];
+const CATEGORIES = ['Mind', 'Földmunka', 'Fuvarozás', 'Útépítés', 'Tereprendezés', 'Közmű', 'Gépek', 'Aratás'];
 
 const PORTFOLIO_ITEMS: PortfolioItem[] = [
   // FÖLDMUNKA
