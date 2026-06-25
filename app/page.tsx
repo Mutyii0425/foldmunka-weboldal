@@ -105,9 +105,9 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   { src: "/images/holdjaro.jpg", cat: "Mezőgazdaság", title: "Bála rakás" },
   { src: "/images/bala.jpg", cat: "Mezőgazdaság", title: "Fuvarozás" },
   { src: "/images/kombajn.jpg", cat: "Mezőgazdaság", title: "Aratás " },
-   { src: "/images/kamion2.jpg", cat: "Fuvarozás", title: "Mezőgazdasági fuvar" },
-   { src: "/images/kettonagy.jpg", cat: "Fuvarozás", title: "Gabona tárolás" },
-     { src: "/images/fuvarozas1.jpg", cat: "Fuvarozás", title: "Fuvarozás" },
+   { src: "/images/kamion2.jpg", cat: "Mezőgazdaság", title: "Mezőgazdasági fuvar" },
+   { src: "/images/kettonagy.jpg", cat: "Mezőgazdaság", title: "Gabona tárolás" },
+     { src: "/images/fuvarozas1.jpg", cat: "Mezőgazdaság", title: "Fuvarozás" },
 
   //GÉPEK
   { src: "/images/gepek.jpg", cat: "Gépek", title: "Kisgépek" },
